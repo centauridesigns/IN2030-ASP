@@ -95,9 +95,12 @@ public class Scanner {
 
     private String expandLeadingTabs(String s) {
 		int n = 0;
+		int m = 0;
 		boolean tabOrSpace = true;
+		String tmp;
 
 		while (tabOrSpace) {
+			m++;
 			if (s.charAt(n) == ' ') n++;
 			else if (s.charAt(n) == '	') {
 				n += 4 - (n % 4);
@@ -107,15 +110,36 @@ public class Scanner {
 				tabOrSpace = false;
 			}
 		}
+
+		//legger til riktig antall spaces og resten av stringen
+		for(int i : range(n)){
+			tmp += ' ';
+		}
+		tmp += s.substring(m);
 		
-		return s;
+		return tmp;
     }
 
-	private String expandLeadingTabs2 (String s) {
-		int n = findIndent(s);
 
-		if (n > indents.peek()) {
-			indents.push(n);
+	private void createIndents(String s){
+		String tmp;
+		int indentCount = 0;
+		//sjekker om linje bare inneholder blanke 
+		for(int i = 0;  i < s.length(); i++){
+			if(s.charAt(i) != ' '){
+				return;
+			}
+		}
+
+		//omformer TAB-er til blanke 
+		tmp = expandLeadingTabs(s);
+
+		//teller innledende blanke 
+		indentCount = findIndent(tmp);
+
+		//pusher og popper fra stack
+		if (indentCount > indents.peek()) {
+			indents.push(indentCount);
 			curLineTokens.add(new Token(indentToken, curLineNum()));
 		}
 
@@ -124,10 +148,9 @@ public class Scanner {
 			curLineTokens.add(new Token(dedentToken, curLineNum()));
 		}
 
-		if (n != indents.peek()){
+		if (indentCount != indents.peek()){
 			// Indenteringsfeil.
 			System.out.println("Indenteringsfeil.");
-			return null;
 		}
 	}
 
