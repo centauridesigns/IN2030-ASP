@@ -87,16 +87,49 @@ public class Scanner {
     }
 
     private int findIndent(String s) {
-	int indent = 0;
+		int indent = 0;
 
-	while (indent<s.length() && s.charAt(indent)==' ') indent++;
-	return indent;
+		while (indent < s.length() && s.charAt(indent) == ' ') indent++;
+		return indent;
     }
 
     private String expandLeadingTabs(String s) {
-	//-- Must be changed in part 1:
-	return null;
+		int n = 0;
+		boolean tabOrSpace = true;
+
+		while (tabOrSpace) {
+			if (s.charAt(n) == ' ') n++;
+			else if (s.charAt(n) == '	') {
+				n += 4 - (n % 4);
+			}
+
+			else {
+				tabOrSpace = false;
+			}
+		}
+		
+		return s;
     }
+
+	private String expandLeadingTabs2 (String s) {
+		int n = findIndent(s);
+
+		if (n > indents.peek()) {
+			indents.push(n);
+			curLineTokens.add(new Token(indentToken, curLineNum()));
+		}
+
+		else {
+			indents.pop();
+			curLineTokens.add(new Token(dedentToken, curLineNum()));
+		}
+
+		if (n != indents.peek()){
+			// Indenteringsfeil.
+			System.out.println("Indenteringsfeil.");
+			return null;
+		}
+	}
 
 
     private boolean isLetterAZ(char c) {
