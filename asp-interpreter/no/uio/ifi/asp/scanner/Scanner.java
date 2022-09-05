@@ -112,7 +112,7 @@ public class Scanner {
 		}
 
 		//legger til riktig antall spaces og resten av stringen
-		for(int i; i < n; i++){
+		for(int i = 0; i < n; i++){
 			tmp += ' ';
 		}
 		tmp += s.substring(m);
