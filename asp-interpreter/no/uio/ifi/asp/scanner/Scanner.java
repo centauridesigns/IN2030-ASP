@@ -97,7 +97,7 @@ public class Scanner {
 		int n = 0;
 		int m = 0;
 		boolean tabOrSpace = true;
-		String tmp;
+		String tmp = "";
 
 		while (tabOrSpace) {
 			m++;
@@ -112,7 +112,7 @@ public class Scanner {
 		}
 
 		//legger til riktig antall spaces og resten av stringen
-		for(int i : range(n)){
+		for(int i; i < n; i++){
 			tmp += ' ';
 		}
 		tmp += s.substring(m);
