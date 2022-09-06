@@ -17,73 +17,119 @@ public class Scanner {
 
 
     public Scanner(String fileName) {
-	curFileName = fileName;
-	indents.push(0);
+		curFileName = fileName;
+		indents.push(0);
 
-	try {
-	    sourceFile = new LineNumberReader(
-			    new InputStreamReader(
-				new FileInputStream(fileName),
-				"UTF-8"));
-	} catch (IOException e) {
-	    scannerError("Cannot read " + fileName + "!");
-	}
+		try {
+			sourceFile = new LineNumberReader(
+					new InputStreamReader(
+					new FileInputStream(fileName),
+					"UTF-8"));
+		} catch (IOException e) {
+			scannerError("Cannot read " + fileName + "!");
+		}
     }
 
 
     private void scannerError(String message) {
-	String m = "Asp scanner error";
-	if (curLineNum() > 0)
-	    m += " on line " + curLineNum();
-	m += ": " + message;
+		String m = "Asp scanner error";
+		if (curLineNum() > 0)
+			m += " on line " + curLineNum();
+		m += ": " + message;
 
-	Main.error(m);
+		Main.error(m);
     }
 
 
     public Token curToken() {
-	while (curLineTokens.isEmpty()) {
-	    readNextLine();
-	}
-	return curLineTokens.get(0);
+		while (curLineTokens.isEmpty()) {
+			readNextLine();
+		}
+
+		return curLineTokens.get(0);
     }
 
 
     public void readNextToken() {
-	if (! curLineTokens.isEmpty())
-	    curLineTokens.remove(0);
+		if (! curLineTokens.isEmpty())
+			curLineTokens.remove(0);
     }
 
 
     private void readNextLine() {
-	curLineTokens.clear();
+		curLineTokens.clear();
 
-	// Read the next line:
-	String line = null;
-	try {
-	    line = sourceFile.readLine();
-	    if (line == null) {
-		sourceFile.close();
-		sourceFile = null;
-	    } else {
-		Main.log.noteSourceLine(curLineNum(), line);
-	    }
-	} catch (IOException e) {
-	    sourceFile = null;
-	    scannerError("Unspecified I/O error!");
-	}
+		// Read the next line:
+		String line = null;
 
-	//-- Must be changed in part 1:
+		try {
+			line = sourceFile.readLine();
 
-	// Terminate line:
-	curLineTokens.add(new Token(newLineToken,curLineNum()));
+			if (line == null) {
+				sourceFile.close();
+				sourceFile = null;
+			} else {
+				Main.log.noteSourceLine(curLineNum(), line);
+			}
 
-	for (Token t: curLineTokens) 
-	    Main.log.noteToken(t);
+		} catch (IOException e) {
+			sourceFile = null;
+			scannerError("Unspecified I/O error!");
+		}
+
+		//-- Must be changed in part 1:
+		for (int i = 0; i < line.length(); i++) {
+			if (line.charAt(i) == ' ');
+			if (line.charAt(i) == '#') return;
+			if (line.charAt(i) == '\n') {
+				/* OPPRETT TOKEN */
+				return;
+			}
+
+			if (line.charAt(i) == '"') {
+				// LES TIL NESTE "
+			}
+
+			if (isLetterAZ(line.charAt(i))) {
+				// LES TIL INGEN FLERE CHARS OPPRETT NAVN TOKEN
+			}
+
+			if (isDigit(line.charAt(i))) {
+				// SJEKK OM NESTE VERDIER OGSÅ ER TALL, HVIS IKKE OPPRETT TALL TOKEN
+			}
+
+			// NEW-LINE, SYMBOLER, ARITMETIKK, EOF
+			
+		}
+
+		// Terminate line:
+		curLineTokens.add(new Token(newLineToken,curLineNum()));
+
+		for (Token t: curLineTokens) 
+			Main.log.noteToken(t);
     }
 
+	// -----------------------------------------------------------------
+	private boolean isCommentOrEmpty(String s) {
+		// COMMENT
+		if (s.charAt(0) == '#') {
+			return true;
+		}
+
+		// LETTERS (hva gjør vi om newline hitter)
+		for (int i = 0;  i < s.length(); i++){
+			if (!(s.charAt(i) == ' ') || !(s.charAt(i) == '	') || !(s.charAt(i) == '\n')){
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	// -----------------------------------------------------------------
+
     public int curLineNum() {
-	return sourceFile!=null ? sourceFile.getLineNumber() : 0;
+		return sourceFile!=null ? sourceFile.getLineNumber() : 0;
     }
 
     private int findIndent(String s) {
@@ -102,8 +148,9 @@ public class Scanner {
 		while (tabOrSpace) {
 			m++;
 			if (s.charAt(n) == ' ') n++;
+
 			else if (s.charAt(n) == '	') {
-				n += 4 - (n % 4);
+				n += TABDIST - (n % TABDIST);
 			}
 
 			else {
@@ -112,20 +159,20 @@ public class Scanner {
 		}
 
 		//legger til riktig antall spaces og resten av stringen
-		for(int i = 0; i < n; i++){
+		for (int i = 0; i < n; i++) {
 			tmp += ' ';
 		}
+
 		tmp += s.substring(m);
 		
 		return tmp;
     }
 
-
 	private void createIndents(String s){
 		String tmp;
 		int indentCount = 0;
 		//sjekker om linje bare inneholder blanke 
-		for(int i = 0;  i < s.length(); i++){
+		for (int i = 0;  i < s.length(); i++){
 			if(s.charAt(i) != ' '){
 				return;
 			}
@@ -156,48 +203,49 @@ public class Scanner {
 
 
     private boolean isLetterAZ(char c) {
-	return ('A'<=c && c<='Z') || ('a'<=c && c<='z') || (c=='_');
+		return ('A'<=c && c<='Z') || ('a'<=c && c<='z') || (c=='_');
     }
 
 
     private boolean isDigit(char c) {
-	return '0'<=c && c<='9';
+		return '0'<=c && c<='9';
     }
 
 
     public boolean isCompOpr() {
-	TokenKind k = curToken().kind;
-	//-- Must be changed in part 2:
-	return false;
+		TokenKind k = curToken().kind;
+		//-- Must be changed in part 2:
+		return false;
     }
 
 
     public boolean isFactorPrefix() {
-	TokenKind k = curToken().kind;
-	//-- Must be changed in part 2:
-	return false;
+		TokenKind k = curToken().kind;
+		//-- Must be changed in part 2:
+		return false;
     }
 
 
     public boolean isFactorOpr() {
-	TokenKind k = curToken().kind;
-	//-- Must be changed in part 2:
-	return false;
+		TokenKind k = curToken().kind;
+		//-- Must be changed in part 2:
+		return false;
     }
 	
 
     public boolean isTermOpr() {
-	TokenKind k = curToken().kind;
-	//-- Must be changed in part 2:
-	return false;
+		TokenKind k = curToken().kind;
+		//-- Must be changed in part 2:
+		return false;
     }
 
 
     public boolean anyEqualToken() {
-	for (Token t: curLineTokens) {
-	    if (t.kind == equalToken) return true;
-	    if (t.kind == semicolonToken) return false;
-	}
-	return false;
+		for (Token t: curLineTokens) {
+			if (t.kind == equalToken) return true;
+			if (t.kind == semicolonToken) return false;
+		}
+
+		return false;
     }
 }
