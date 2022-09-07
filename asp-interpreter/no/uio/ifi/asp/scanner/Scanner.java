@@ -82,23 +82,51 @@ public class Scanner {
 			if (line.charAt(i) == ' ');
 			if (line.charAt(i) == '#') return;
 			if (line.charAt(i) == '\n') {
-				/* OPPRETT TOKEN */
+				/* OPPRETT NEWLINE TOKEN */
+				curLineTokens.add(new Token(newLineToken, curLineNum()));
 				return;
 			}
 
 			if (line.charAt(i) == '"') {
-				// LES TIL NESTE "
+				// LES TIL NESTE " : opprett string token
+				int start = i;
+				while(line.charAt(i+1) != '"'){
+					i++;
+				}
+				int end = i+1;
+				String sToken = line.substring(start, end+1);
+				curLineTokens.add(new Token(stringToken, curLineNum()));
+				//må vel pæse med selve stringen også??
+
 			}
 
 			if (isLetterAZ(line.charAt(i))) {
 				// LES TIL INGEN FLERE CHARS OPPRETT NAVN TOKEN
+				int start = i;
+				while(isLetterAZ(line.charAt(i+1))){
+					i++;
+				}
+				//setter end til i, substring tar ikke med endindex
+				int end = i;
+				String nToken = line.substring(start, end);
+				curLineTokens.add(new Token(nameToken, curLineNum()));
+				//må vel pæse med selve stringen også??
 			}
 
 			if (isDigit(line.charAt(i))) {
 				// SJEKK OM NESTE VERDIER OGSÅ ER TALL, HVIS IKKE OPPRETT TALL TOKEN
+				int start = i;
+				while(isDigit(line.charAt(i+1))){
+					i++;
+				}
+				//setter end til i, substring tar ikke med endindex
+				int end = i;
+				int intToken = line.substring(start, end);
+				curLineTokens.add(new Token(integerToken, curLineNum()));
+				//må vel pæse med selve inten også??
 			}
 
-			// NEW-LINE, SYMBOLER, ARITMETIKK, EOF
+			// SYMBOLER, ARITMETIKK, EOF
 			
 		}
 
