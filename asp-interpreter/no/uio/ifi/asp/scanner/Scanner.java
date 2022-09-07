@@ -80,14 +80,15 @@ public class Scanner {
 		//-- Must be changed in part 1:
 		for (int i = 0; i < line.length(); i++) {
 			if (line.charAt(i) == ' ');
-			if (line.charAt(i) == '#') return;
-			if (line.charAt(i) == '\n') {
-				/* OPPRETT NEWLINE TOKEN */
+			else if (line.charAt(i) == '#') return;
+			/*
+			else if (line.charAt(i) == '\n') {
+				//OPPRETT NEWLINE TOKEN 
 				curLineTokens.add(new Token(newLineToken, curLineNum()));
 				return;
-			}
+			}*/
 
-			if (line.charAt(i) == '"') {
+			else if (line.charAt(i) == '"') {
 				// LES TIL NESTE " : opprett string token
 				int start = i;
 				while(line.charAt(i+1) != '"'){
@@ -100,7 +101,7 @@ public class Scanner {
 
 			}
 
-			if (isLetterAZ(line.charAt(i))) {
+			else if (isLetterAZ(line.charAt(i))) {
 				// LES TIL INGEN FLERE CHARS OPPRETT NAVN TOKEN
 				int start = i;
 				while(isLetterAZ(line.charAt(i+1))){
@@ -109,11 +110,22 @@ public class Scanner {
 				//setter end til i, substring tar ikke med endindex
 				int end = i;
 				String nToken = line.substring(start, end);
-				curLineTokens.add(new Token(nameToken, curLineNum()));
-				//må vel pæse med selve stringen også??
+
+				if(!keywords.contains(nToken)){
+					curLineTokens.add(new Token(nameToken, curLineNum()));
+					//må vel pæse med selve stringen også??
+				}else{
+					//opprettelse av keyword-tokens
+					for(Token t : TokenKind.values()){
+						if(t.name.equals(nToken)){
+							curLineTokens.add(new Token(t, curLineNum()));
+						}
+					}
+				}
+				
 			}
 
-			if (isDigit(line.charAt(i))) {
+			else if (isDigit(line.charAt(i))) {
 				// SJEKK OM NESTE VERDIER OGSÅ ER TALL, HVIS IKKE OPPRETT TALL TOKEN
 				int start = i;
 				while(isDigit(line.charAt(i+1))){
@@ -121,13 +133,49 @@ public class Scanner {
 				}
 				//setter end til i, substring tar ikke med endindex
 				int end = i;
-				int intToken = line.substring(start, end);
+				int intToken = Integer.valueOf(substring(start, end));
 				curLineTokens.add(new Token(integerToken, curLineNum()));
 				//må vel pæse med selve inten også??
 			}
-
 			// SYMBOLER, ARITMETIKK, EOF
-			
+			else{
+				if(line.charAt(i) == '='){
+					if(line.charAt(i+1) == '='){
+						curLineTokens.add(new Token(doubleEqualToken, curLineNum()));
+					}else{
+						curLineTokens.add(new Token(equalToken, curLineNum()));
+					}
+				}else if (line.charAt(i) == '<'){
+					if(line.charAt(i+1) == '='){
+						curLineTokens.add(new Token(lessEqualToken, curLineNum()));
+					}else{
+						curLineTokens.add(new Token(lessToken, curLineNum()));
+					}
+				}else if (line.charAt(i) == '>'){
+					if(line.charAt(i+1) == '='){
+						curLineTokens.add(new Token(greaterEqualToken, curLineNum()));
+					}else{
+						curLineTokens.add(new Token(greaterToken, curLineNum()));
+					}
+				}else if (line.charAt(i) == '/'){
+					if(line.charAt(i+1) == '/'){
+						curLineTokens.add(new Token(doubleSlashToken, curLineNum()));
+					}else{
+						curLineTokens.add(new Token(slashToken, curLineNum()));
+					}
+				}else if (line.charAt(i) == '!'){
+					if(line.charAt(i+1) == '='){
+						curLineTokens.add(new Token(notEqualToken, curLineNum()));
+					}
+				}else{
+					for(Token t : TokenKind.values()){
+						if(t.name.equals(line.charAt(i))){
+							curLineTokens.add(new Token(t, curLineNum()));
+						}
+					}
+				}
+			}
+
 		}
 
 		// Terminate line:
@@ -136,25 +184,6 @@ public class Scanner {
 		for (Token t: curLineTokens) 
 			Main.log.noteToken(t);
     }
-
-	// -----------------------------------------------------------------
-	private boolean isCommentOrEmpty(String s) {
-		// COMMENT
-		if (s.charAt(0) == '#') {
-			return true;
-		}
-
-		// LETTERS (hva gjør vi om newline hitter)
-		for (int i = 0;  i < s.length(); i++){
-			if (!(s.charAt(i) == ' ') || !(s.charAt(i) == '	') || !(s.charAt(i) == '\n')){
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	// -----------------------------------------------------------------
 
     public int curLineNum() {
 		return sourceFile!=null ? sourceFile.getLineNumber() : 0;
@@ -168,22 +197,24 @@ public class Scanner {
     }
 
     private String expandLeadingTabs(String s) {
+		//System.out.println("Lengde på s i metoden: " + s.length());
 		int n = 0;
 		int m = 0;
 		boolean tabOrSpace = true;
 		String tmp = "";
 
 		while (tabOrSpace) {
-			m++;
-			if (s.charAt(n) == ' ') n++;
+			if (s.charAt(m) == ' ') n++;
 
-			else if (s.charAt(n) == '	') {
-				n += TABDIST - (n % TABDIST);
+			else if (s.charAt(m) == '	') {
+				n += 4 - (n % 4);
 			}
 
-			else {
+			if(m >= s.length()-1) {
 				tabOrSpace = false;
 			}
+			System.out.println(m);
+			m++;
 		}
 
 		//legger til riktig antall spaces og resten av stringen
@@ -276,4 +307,6 @@ public class Scanner {
 
 		return false;
     }
+
+	ArrayList<String> keywords = new ArrayList<>(Arrays.asList("and", "def", "elif", "else", "for", "global", "if", "in", "None", "not", "or", "pass", "return", "True", "False", "while"));
 }
