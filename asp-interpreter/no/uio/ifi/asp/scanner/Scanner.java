@@ -78,6 +78,7 @@ public class Scanner {
 			scannerError("Unspecified I/O error!");
 		}
 
+		// If there are no more lines to read, add an EOF token.
 		if (sourceFile == null) {
 			curLineTokens.add(new Token(eofToken, curLineNum()));
 			for (Token t: curLineTokens) {
@@ -85,26 +86,34 @@ public class Scanner {
 			}
 		}
 
+		// If there are lines to read, continue reading.
 		else {
+
+			// If the sentence contains a #, regard the whole as a comment. This must be rewritten to allow for post-code comments.
 			for (int i = 0; i < line.length(); i++) {
 				if (line.charAt(i) == '#') return;
 			}
 	
+			// Expand the leading tabs, converting them onto spaces.
 			line = expandLeadingTabs(line);
 			if (line == "ERROR") {
 				return;
 			}
 	
+			// Create indent and dedent tokens.
 			createIndents(line);
-	
-			//-- Must be changed in part 1:
+
+			// Loop through every character in the sentence.
 			for (int i = 0; i < line.length(); i++) {
 				//System.out.println(line);
+
+				// If the line contains a space, do nothing. 
 				if (line.charAt(i) == ' ');
-	
+				
+				// If the line contains a quotation mark, read until the next quotation mark (unless it is an ending quotation mark).
+				// Does not take into consideration NEWLINE mid-string, which must be corrected.
 				else if (line.charAt(i) == '"') {
 					if (quoteCount % 2 == 0) {
-						// LES TIL NESTE " : opprett string token
 						int start = i + 1;
 						int end = start;
 	
@@ -128,9 +137,10 @@ public class Scanner {
 	
 				}
 
+				// If the line contains a quotation mark, read until the next quotation mark (unless it is an ending quotation mark).
+				// Does not take into consideration NEWLINE mid-string, which must be corrected.
 				else if (line.charAt(i) == '\'') {
 					if (quoteCount % 2 == 0) {
-						// LES TIL NESTE " : opprett string token
 						int start = i + 1;
 						int end = start;
 	
@@ -153,14 +163,14 @@ public class Scanner {
 					}
 				}
 	
+				// If the letter read is a character, continue reading until the characters end - unless it is contained within quotes, in which case it is a string.
 				else if (isLetterAZ(line.charAt(i))) {
 					if (quoteCount % 2 == 0) {
-						// LES TIL INGEN FLERE CHARS OPPRETT NAVN TOKEN
 						int start = i;
 						while(isLetterAZ(line.charAt(i+1))){
 							i++;
 						}
-						//setter end til i, substring tar ikke med endindex
+						// Set end to I, the substring does not take into account the end-index.
 						int end = i;
 
 						String nToken = line.substring(start, end + 1);
@@ -169,11 +179,10 @@ public class Scanner {
 		
 						if(!keywords.contains(nToken)){
 							curLineTokens.add(tempToken);
-							//må vel pæse med selve stringen også??
 						}
 						
 						else{
-							//opprettelse av keyword-tokens
+							// Loop through the token list, if the read string matches one of the token names, generate said token.
 							for(TokenKind t : TokenKind.values()){
 								if(t.equals(nToken)){
 									curLineTokens.add(new Token(t, curLineNum()));
@@ -187,8 +196,8 @@ public class Scanner {
 					}
 				}
 	
+				// If a digit is read, continue reading until no digits persist. Create a TOKEN.
 				else if (isDigit(line.charAt(i))) {
-					// SJEKK OM NESTE VERDIER OGSÅ ER TALL, HVIS IKKE OPPRETT TALL TOKEN
 					int start = i;
 					while(isDigit(line.charAt(i+1))){
 						i++;
@@ -201,9 +210,9 @@ public class Scanner {
 					tempToken.integerLit = intToken;
 
 					curLineTokens.add(tempToken);
-					//må vel pæse med selve inten også??
 				}
-				// SYMBOLER, ARITMETIKK, EOF
+
+				// If none of the above match, check to see which symbol. We check double-digit symbols separately, and loop through the token kinds if it is a single-digit symbol.
 				else {
 					if (line.charAt(i) == '='){
 						if (line.charAt(i+1) == '='){
@@ -267,7 +276,7 @@ public class Scanner {
 				}
 			}
 	
-			// Terminate line:
+			// Terminate line. A token of this kind should not be created when mid-string.
 			curLineTokens.add(new Token(newLineToken,curLineNum()));
 	
 			for (Token t: curLineTokens) {
@@ -318,7 +327,7 @@ public class Scanner {
 			m++;
 		}
 
-		//legger til riktig antall spaces og resten av stringen
+		//Legger til riktig antall spaces og resten av stringen
 		for (int i = 0; i < n; i++) {
 			tmp += ' ';
 		}
@@ -345,10 +354,10 @@ public class Scanner {
 			}
 		}
 
-		//teller innledende blanke 
+		//Teller innledende blanke 
 		indentCount = findIndent(s);
 
-		//pusher og popper fra stack
+		//Pusher og popper fra stack
 		if (indentCount > indents.peek()) {
 			indents.push(indentCount);
 			curLineTokens.add(new Token(indentToken, curLineNum()));
