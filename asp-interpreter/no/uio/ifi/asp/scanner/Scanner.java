@@ -57,6 +57,7 @@ public class Scanner {
 
 
     private void readNextLine() {
+		int quoteCount = 0;
 		curLineTokens.clear();
 
 		// Read the next line:
@@ -77,112 +78,204 @@ public class Scanner {
 			scannerError("Unspecified I/O error!");
 		}
 
-		//-- Must be changed in part 1:
-		for (int i = 0; i < line.length(); i++) {
-			if (line.charAt(i) == ' ');
-			else if (line.charAt(i) == '#') return;
-			/*
-			else if (line.charAt(i) == '\n') {
-				//OPPRETT NEWLINE TOKEN 
-				curLineTokens.add(new Token(newLineToken, curLineNum()));
-				return;
-			}*/
-
-			else if (line.charAt(i) == '"') {
-				// LES TIL NESTE " : opprett string token
-				int start = i;
-				while(line.charAt(i+1) != '"'){
-					i++;
-				}
-				int end = i+1;
-				String sToken = line.substring(start, end+1);
-				curLineTokens.add(new Token(stringToken, curLineNum()));
-				//må vel pæse med selve stringen også??
-
+		if (sourceFile == null) {
+			curLineTokens.add(new Token(eofToken, curLineNum()));
+			for (Token t: curLineTokens) {
+				Main.log.noteToken(t);
 			}
-
-			else if (isLetterAZ(line.charAt(i))) {
-				// LES TIL INGEN FLERE CHARS OPPRETT NAVN TOKEN
-				int start = i;
-				while(isLetterAZ(line.charAt(i+1))){
-					i++;
-				}
-				//setter end til i, substring tar ikke med endindex
-				int end = i;
-				String nToken = line.substring(start, end);
-
-				if(!keywords.contains(nToken)){
-					curLineTokens.add(new Token(nameToken, curLineNum()));
-					//må vel pæse med selve stringen også??
-				}else{
-					//opprettelse av keyword-tokens
-					for(Token t : TokenKind.values()){
-						if(t.name.equals(nToken)){
-							curLineTokens.add(new Token(t, curLineNum()));
-						}
-					}
-				}
-				
-			}
-
-			else if (isDigit(line.charAt(i))) {
-				// SJEKK OM NESTE VERDIER OGSÅ ER TALL, HVIS IKKE OPPRETT TALL TOKEN
-				int start = i;
-				while(isDigit(line.charAt(i+1))){
-					i++;
-				}
-				//setter end til i, substring tar ikke med endindex
-				int end = i;
-				int intToken = Integer.valueOf(substring(start, end));
-				curLineTokens.add(new Token(integerToken, curLineNum()));
-				//må vel pæse med selve inten også??
-			}
-			// SYMBOLER, ARITMETIKK, EOF
-			else{
-				if(line.charAt(i) == '='){
-					if(line.charAt(i+1) == '='){
-						curLineTokens.add(new Token(doubleEqualToken, curLineNum()));
-					}else{
-						curLineTokens.add(new Token(equalToken, curLineNum()));
-					}
-				}else if (line.charAt(i) == '<'){
-					if(line.charAt(i+1) == '='){
-						curLineTokens.add(new Token(lessEqualToken, curLineNum()));
-					}else{
-						curLineTokens.add(new Token(lessToken, curLineNum()));
-					}
-				}else if (line.charAt(i) == '>'){
-					if(line.charAt(i+1) == '='){
-						curLineTokens.add(new Token(greaterEqualToken, curLineNum()));
-					}else{
-						curLineTokens.add(new Token(greaterToken, curLineNum()));
-					}
-				}else if (line.charAt(i) == '/'){
-					if(line.charAt(i+1) == '/'){
-						curLineTokens.add(new Token(doubleSlashToken, curLineNum()));
-					}else{
-						curLineTokens.add(new Token(slashToken, curLineNum()));
-					}
-				}else if (line.charAt(i) == '!'){
-					if(line.charAt(i+1) == '='){
-						curLineTokens.add(new Token(notEqualToken, curLineNum()));
-					}
-				}else{
-					for(Token t : TokenKind.values()){
-						if(t.name.equals(line.charAt(i))){
-							curLineTokens.add(new Token(t, curLineNum()));
-						}
-					}
-				}
-			}
-
 		}
 
-		// Terminate line:
-		curLineTokens.add(new Token(newLineToken,curLineNum()));
+		else {
+			for (int i = 0; i < line.length(); i++) {
+				if (line.charAt(i) == '#') return;
+			}
+	
+			line = expandLeadingTabs(line);
+			if (line == "ERROR") {
+				return;
+			}
+	
+			createIndents(line);
+	
+			//-- Must be changed in part 1:
+			for (int i = 0; i < line.length(); i++) {
+				//System.out.println(line);
+				if (line.charAt(i) == ' ');
+	
+				else if (line.charAt(i) == '"') {
+					if (quoteCount % 2 == 0) {
+						// LES TIL NESTE " : opprett string token
+						int start = i + 1;
+						int end = start;
+	
+						while (line.charAt(end) != '\"') {
+							end++;
+						}
+	
+						String sToken = line.substring(start, end);
+	
+						Token tempToken = new Token(stringToken, curLineNum());
+						tempToken.stringLit = sToken;
+	
+						curLineTokens.add(tempToken);
 
-		for (Token t: curLineTokens) 
-			Main.log.noteToken(t);
+						quoteCount++;
+					}
+
+					else {
+						quoteCount++;
+					}
+	
+				}
+
+				else if (line.charAt(i) == '\'') {
+					if (quoteCount % 2 == 0) {
+						// LES TIL NESTE " : opprett string token
+						int start = i + 1;
+						int end = start;
+	
+						while (line.charAt(end) != '\'') {
+							end++;
+						}
+	
+						String sToken = line.substring(start, end);
+	
+						Token tempToken = new Token(stringToken, curLineNum());
+						tempToken.stringLit = sToken;
+	
+						curLineTokens.add(tempToken);
+
+						quoteCount++;
+					}
+
+					else {
+						quoteCount++;
+					}
+				}
+	
+				else if (isLetterAZ(line.charAt(i))) {
+					if (quoteCount % 2 == 0) {
+						// LES TIL INGEN FLERE CHARS OPPRETT NAVN TOKEN
+						int start = i;
+						while(isLetterAZ(line.charAt(i+1))){
+							i++;
+						}
+						//setter end til i, substring tar ikke med endindex
+						int end = i;
+
+						String nToken = line.substring(start, end + 1);
+						Token tempToken = new Token(nameToken, curLineNum());
+						tempToken.name = nToken;
+		
+						if(!keywords.contains(nToken)){
+							curLineTokens.add(tempToken);
+							//må vel pæse med selve stringen også??
+						}
+						
+						else{
+							//opprettelse av keyword-tokens
+							for(TokenKind t : TokenKind.values()){
+								if(t.equals(nToken)){
+									curLineTokens.add(new Token(t, curLineNum()));
+								}
+							}
+						}
+					}
+
+					else {
+						// DO NOTHING
+					}
+				}
+	
+				else if (isDigit(line.charAt(i))) {
+					// SJEKK OM NESTE VERDIER OGSÅ ER TALL, HVIS IKKE OPPRETT TALL TOKEN
+					int start = i;
+					while(isDigit(line.charAt(i+1))){
+						i++;
+					}
+					//setter end til i, substring tar ikke med endindex
+					int end = i;
+
+					int intToken = Integer.valueOf(line.substring(start, end + 1));
+					Token tempToken = new Token(integerToken, curLineNum());
+					tempToken.integerLit = intToken;
+
+					curLineTokens.add(tempToken);
+					//må vel pæse med selve inten også??
+				}
+				// SYMBOLER, ARITMETIKK, EOF
+				else {
+					if (line.charAt(i) == '='){
+						if (line.charAt(i+1) == '='){
+							curLineTokens.add(new Token(doubleEqualToken, curLineNum()));
+						} 
+						
+						else{
+							curLineTokens.add(new Token(equalToken, curLineNum()));
+						}
+					} 
+					
+					else if (line.charAt(i) == '<'){
+						if (line.charAt(i+1) == '='){
+							curLineTokens.add(new Token(lessEqualToken, curLineNum()));
+						}
+						
+						else {
+							curLineTokens.add(new Token(lessToken, curLineNum()));
+						}
+					}
+					
+					else if (line.charAt(i) == '>'){
+						if (line.charAt(i+1) == '='){
+							curLineTokens.add(new Token(greaterEqualToken, curLineNum()));
+						}
+						
+						else {
+							curLineTokens.add(new Token(greaterToken, curLineNum()));
+						}
+					}
+					
+					else if (line.charAt(i) == '/'){
+						if (line.charAt(i+1) == '/'){
+							curLineTokens.add(new Token(doubleSlashToken, curLineNum()));
+						}
+						
+						else {
+							curLineTokens.add(new Token(slashToken, curLineNum()));
+						}
+					}
+					
+					else if (line.charAt(i) == '!'){
+						if (line.charAt(i+1) == '='){
+							curLineTokens.add(new Token(notEqualToken, curLineNum()));
+						}
+					}
+					
+					else {
+						if (quoteCount % 2 == 0) {
+							for (TokenKind t : TokenKind.values()){
+								if (t.image.charAt(0) == line.charAt(i)) {
+									curLineTokens.add(new Token(t, curLineNum()));
+								}
+							}
+						}
+
+						else {
+							// DO NOTHING
+						}
+					}
+				}
+			}
+	
+			// Terminate line:
+			curLineTokens.add(new Token(newLineToken,curLineNum()));
+	
+			for (Token t: curLineTokens) {
+				Main.log.noteToken(t);
+			}
+		}
+
+
     }
 
     public int curLineNum() {
@@ -204,16 +297,24 @@ public class Scanner {
 		String tmp = "";
 
 		while (tabOrSpace) {
-			if (s.charAt(m) == ' ') n++;
+			if (s.length() == 0) {
+				return "ERROR";
+			}
+
+			else if (s.charAt(m) == ' ') n++;
 
 			else if (s.charAt(m) == '	') {
 				n += 4 - (n % 4);
 			}
 
-			if(m >= s.length()-1) {
+			else {
 				tabOrSpace = false;
 			}
-			System.out.println(m);
+
+			if (m >= s.length() - 1) {
+				tabOrSpace = false;
+			}
+
 			m++;
 		}
 
@@ -222,26 +323,30 @@ public class Scanner {
 			tmp += ' ';
 		}
 
-		tmp += s.substring(m);
+		System.out.println(s.substring(m - 1));
+
+		tmp += s.substring(m - 1);
 		
 		return tmp;
     }
 
 	private void createIndents(String s){
-		String tmp;
 		int indentCount = 0;
 		//sjekker om linje bare inneholder blanke 
 		for (int i = 0;  i < s.length(); i++){
-			if(s.charAt(i) != ' '){
+			if (s.charAt(i) != ' ');
+
+			else if (s.charAt(i) == '\n') {
 				return;
+			}
+
+			else {
+				continue;
 			}
 		}
 
-		//omformer TAB-er til blanke 
-		tmp = expandLeadingTabs(s);
-
 		//teller innledende blanke 
-		indentCount = findIndent(tmp);
+		indentCount = findIndent(s);
 
 		//pusher og popper fra stack
 		if (indentCount > indents.peek()) {
@@ -249,13 +354,18 @@ public class Scanner {
 			curLineTokens.add(new Token(indentToken, curLineNum()));
 		}
 
-		else {
-			indents.pop();
-			curLineTokens.add(new Token(dedentToken, curLineNum()));
+		else if (indentCount < indents.peek()) {
+			while (indentCount < indents.peek()) {
+				indents.pop();
+				curLineTokens.add(new Token(dedentToken, curLineNum()));
+			}
 		}
+
+		else if (indentCount == indents.peek());
 
 		if (indentCount != indents.peek()){
 			// Indenteringsfeil.
+			System.out.println(indentCount + " og " + indents.peek());
 			System.out.println("Indenteringsfeil.");
 		}
 	}
