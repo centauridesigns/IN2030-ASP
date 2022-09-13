@@ -10,5 +10,8 @@ Scanner: NEWLINE token on line 3
 Scanner: name token on line 4: print
 Scanner: ( token on line 4
 Scanner: string literal token on line 4: "Hei,"
+Scanner: , token on line 4
+Scanner: name token on line 4: navn
+Scanner: ) token on line 4
 Scanner: NEWLINE token on line 4
 Scanner: E-o-f token

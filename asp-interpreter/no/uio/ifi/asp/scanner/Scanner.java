@@ -57,7 +57,6 @@ public class Scanner {
 
 
     private void readNextLine() {
-		int quoteCount = 0;
 		boolean isInFloat = false;
 		boolean isInDoubleChars = false;
 		curLineTokens.clear();
@@ -82,9 +81,7 @@ public class Scanner {
 
 		// If there are no more lines to read, add an EOF token.
 		if (sourceFile == null) {
-			if (quoteCount % 2 != 0) {
-				scannerError("Unclosed string");
-			}
+			//must handle unclosed string
 
 			curLineTokens.add(new Token(eofToken, curLineNum()));
 
@@ -108,7 +105,6 @@ public class Scanner {
 			// Loop through every character in the sentence.
 			for (int i = 0; i < line.length(); i++) {
 				//System.out.println("char er: " + line.charAt(i));
-				//System.out.println("quotecount er: " + quoteCount);
 				//System.out.println(line);
 
 				if (!isDigit(line.charAt(i)) && isInFloat) {
@@ -133,91 +129,86 @@ public class Scanner {
 				// If the line contains a quotation mark, read until the next quotation mark (unless it is an ending quotation mark).
 				// Does not take into consideration NEWLINE mid-string, which must be corrected.
 				else if (line.charAt(i) == '"') {
-					if (quoteCount % 2 == 0) {
-						int start = i + 1;
-						int end = start;
-	
-						while (line.charAt(end) != '\"' && end < line.length() - 1) {
-							end++;
-						}
-	
-						String sToken = line.substring(start, end);
-	
-						Token tempToken = new Token(stringToken, curLineNum());
-						tempToken.stringLit = sToken;
-	
-						curLineTokens.add(tempToken);
+					int start = i + 1;
+					int end = start;
 
-						//quoteCount++;
+					while (end < line.length() - 1 && line.charAt(end) != '\"') {
+						i++;
+						end++;
 					}
-					quoteCount++;
-	
+
+					if(line.charAt(end) != '\"'){
+						scannerError("Unended string literal.");
+					}
+
+
+
+					String sToken = line.substring(start, end);
+
+					Token tempToken = new Token(stringToken, curLineNum());
+					tempToken.stringLit = sToken;
+
+					curLineTokens.add(tempToken);
+
+					i++;
 				}
 
 				// If the line contains a quotation mark, read until the next quotation mark (unless it is an ending quotation mark).
 				// Does not take into consideration NEWLINE mid-string, which must be corrected.
 				else if (line.charAt(i) == '\'') {
-					if (quoteCount % 2 == 0) {
-						int start = i + 1;
-						int end = start;
-	
-						while (line.charAt(end) != '\'' && end < line.length() - 1) {
-							end++;
-						}
-	
-						String sToken = line.substring(start, end);
-	
-						Token tempToken = new Token(stringToken, curLineNum());
-						tempToken.stringLit = sToken;
-	
-						curLineTokens.add(tempToken);
+					int start = i + 1;
+					int end = start;
 
-						quoteCount++;
+					while (end < line.length() - 1 && line.charAt(end) != '\'') {
+						i++;
+						end++;
 					}
 
-					else {
-						quoteCount++;
+					if(line.charAt(end) != '\''){
+						scannerError("Unended string literal.");
 					}
+
+					String sToken = line.substring(start, end);
+
+					Token tempToken = new Token(stringToken, curLineNum());
+					tempToken.stringLit = sToken;
+
+					curLineTokens.add(tempToken);
+
+					i++;
 				}
 	
 				// If the letter read is a character, continue reading until the characters end - unless it is contained within quotes, in which case it is a string.
 				else if (isLetterAZ(line.charAt(i))) {
-					if (quoteCount % 2 == 0) {
-						int start = i;
+					int start = i;
 
-						while(i < line.length()-1 && isLetterAZ(line.charAt(i+1))){
-							i++;
-						}
-						// Set end to I, the substring does not take into account the end-index.
-						int end = i;
+					while(i < line.length()-1 && isLetterAZ(line.charAt(i+1))){
+						i++;
+					}
+					// Set end to I, the substring does not take into account the end-index.
+					int end = i;
 
-						String nToken = line.substring(start, end + 1);
-						Token tempToken = new Token(nameToken, curLineNum());
-						tempToken.name = nToken;
-		
-						if(!keywords.contains(nToken)){
-							curLineTokens.add(tempToken);
-						}
-						
-						else{
-							// Loop through the token list, if the read string matches one of the token names, generate said token.
-							for(TokenKind t : TokenKind.values()){
-								if(t.equals(nToken)){
-									curLineTokens.add(new Token(t, curLineNum()));
-								}
+					String nToken = line.substring(start, end + 1);
+					Token tempToken = new Token(nameToken, curLineNum());
+					tempToken.name = nToken;
+	
+					if(!keywords.contains(nToken)){
+						curLineTokens.add(tempToken);
+					}
+					
+					else{
+						// Loop through the token list, if the read string matches one of the token names, generate said token.
+						for(TokenKind t : TokenKind.values()){
+							if(t.equals(nToken)){
+								curLineTokens.add(new Token(t, curLineNum()));
 							}
 						}
-					}
-
-					else {
-						// DO NOTHING
-						
 					}
 				}
 	
 				// If a digit is read, continue reading until no digits persist. Create a TOKEN.
 				else if (isDigit(line.charAt(i))) {
-					if (quoteCount % 2 == 0 && !isInFloat){
+					if (!isInFloat){
 
 						int start = i;
 	
@@ -294,15 +285,6 @@ public class Scanner {
 
 				// If none of the above match, check to see which symbol. We check double-digit symbols separately, and loop through the token kinds if it is a single-digit symbol.
 				else {
-					if (quoteCount % 2 != 0){
-						curLineTokens.add(new Token(newLineToken,curLineNum()));
-	
-						for (Token t: curLineTokens) {
-							Main.log.noteToken(t);
-						}
-						return;
-					}
-
 					if (line.charAt(i) == '='){
 						if (line.charAt(i+1) == '='){
 							isInDoubleChars = true;
@@ -371,32 +353,19 @@ public class Scanner {
 					
 					else {
 						//any delimeters, operators or other that do not require special treatment
-						System.out.println("quotecount: " + quoteCount);
-						if (quoteCount % 2 == 0) {
-							int tokenCount = 0;
-							for (TokenKind t : TokenKind.values()){
-								if (t.image.charAt(0) == line.charAt(i)) {
-									tokenCount++;
-									curLineTokens.add(new Token(t, curLineNum()));
-								}
-							}
-							if(tokenCount == 0){
-								scannerError("Unknown symbol.");
+						int tokenCount = 0;
+						for (TokenKind t : TokenKind.values()){
+							if (t.image.charAt(0) == line.charAt(i)) {
+								tokenCount++;
+								curLineTokens.add(new Token(t, curLineNum()));
 							}
 						}
-
-						else {
-							quoteCount++;
-							// DO NOTHING
+						if(tokenCount == 0){
+							scannerError("Unknown symbol.");
 						}
 					}
 				}
 			}
-
-			if (quoteCount %2 != 0) {
-				scannerError("String literal unended");
-			}
-	
 			// Terminate line. A token of this kind should not be created when mid-string.
 			curLineTokens.add(new Token(newLineToken,curLineNum()));
 	
