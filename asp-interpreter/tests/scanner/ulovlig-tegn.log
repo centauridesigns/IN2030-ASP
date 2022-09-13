@@ -1,0 +1,6 @@
+   1: # A $ sign is only allowed in text string literals.
+Scanner: NEWLINE token on line 1
+   2: 
+   3: s = "The price is $2.50"   # OK
+   4: a$b = 1234567890           # 'Illegal character'
+Asp scanner error on line 4: Unknown symbol.

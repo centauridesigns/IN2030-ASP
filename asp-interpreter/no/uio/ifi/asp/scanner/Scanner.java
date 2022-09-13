@@ -59,6 +59,7 @@ public class Scanner {
     private void readNextLine() {
 		int quoteCount = 0;
 		boolean isInFloat = false;
+		boolean isInDoubleChars = false;
 		curLineTokens.clear();
 
 		// Read the next line:
@@ -106,6 +107,8 @@ public class Scanner {
 
 			// Loop through every character in the sentence.
 			for (int i = 0; i < line.length(); i++) {
+				//System.out.println("char er: " + line.charAt(i));
+				//System.out.println("quotecount er: " + quoteCount);
 				//System.out.println(line);
 
 				if (!isDigit(line.charAt(i)) && isInFloat) {
@@ -145,12 +148,9 @@ public class Scanner {
 	
 						curLineTokens.add(tempToken);
 
-						quoteCount++;
+						//quoteCount++;
 					}
-
-					else {
-						quoteCount++;
-					}
+					quoteCount++;
 	
 				}
 
@@ -184,7 +184,8 @@ public class Scanner {
 				else if (isLetterAZ(line.charAt(i))) {
 					if (quoteCount % 2 == 0) {
 						int start = i;
-						while(isLetterAZ(line.charAt(i+1))){
+
+						while(i < line.length()-1 && isLetterAZ(line.charAt(i+1))){
 							i++;
 						}
 						// Set end to I, the substring does not take into account the end-index.
@@ -210,74 +211,77 @@ public class Scanner {
 
 					else {
 						// DO NOTHING
+						
 					}
 				}
 	
 				// If a digit is read, continue reading until no digits persist. Create a TOKEN.
 				else if (isDigit(line.charAt(i))) {
-					if (isInFloat) {
-						return;
-					}
+					if (quoteCount % 2 == 0 && !isInFloat){
 
-					int start = i;
-
-					if (i + 1 < line.length()) {
-						System.out.println("A");
-
-						// Multidigit integer/float
-						while(isDigit(line.charAt(i + 1))){
-							System.out.println("B");
-							i++;
-						}
-
-						// Float
-						if (line.charAt(i + 1) == '.') {
-							System.out.println("C");
-							boolean completeFloat = false;
-							isInFloat = true;
-							i = i+2;
-							
-							System.out.println("i = " + i);
-							System.out.println("line length " + line.length());
-							System.out.println("char at i " + line.charAt(i-1));
-
-							if(line.charAt(i-1) == '.' && line.length() == i){
-								isInFloat = false;
-								scannerError("dritt");
-							}
-
-							// Remainder of decimals in float
-							while(i < line.length()-1 && isDigit(line.charAt(i))){
-								completeFloat = true;
-								System.out.println("E");
+						int start = i;
+	
+						if (i + 1 < line.length()) {
+	
+							// Multidigit integer/float
+							while(isDigit(line.charAt(i + 1))){
 								i++;
 							}
-							//System.out.println("substring " + line.substring(start, i + 1));
-							
-							
-							if(!completeFloat && isDigit(line.charAt(i))){
-								completeFloat = true;
-							}
-							
-
-							if(!completeFloat){
-								isInFloat = false;
-								scannerError("dritt");
-							}
-						
-							int end = i;
-							System.out.println(line.substring(start, end + 1));
 	
-							Float ftToken = Float.parseFloat(line.substring(start, end + 1));
-							Token tempToken = new Token(floatToken, curLineNum());
-							tempToken.floatLit = ftToken;
+							// Float
+							if (line.charAt(i + 1) == '.') {
+								boolean completeFloat = false;
+								isInFloat = true;
+								i = i+2;
+								
 	
-							curLineTokens.add(tempToken);
+								if(line.charAt(i-1) == '.' && line.length() == i){
+									isInFloat = false;
+									scannerError("Float is not formatted correctly.");
+								}
+	
+								// Remainder of decimals in float
+								while(i < line.length()-1 && isDigit(line.charAt(i))){
+									completeFloat = true;
+									i++;
+								}
+								//System.out.println("substring " + line.substring(start, i + 1));
+								
+								
+								if(!completeFloat && isDigit(line.charAt(i))){
+									completeFloat = true;
+								}
+								
+	
+								if(!completeFloat){
+									isInFloat = false;
+									scannerError("Float is not formatted correctly.");
+								}
+							
+								int end = i;
+								//System.out.println(line.substring(start, end + 1));
+		
+								Float ftToken = Float.parseFloat(line.substring(start, end + 1));
+								Token tempToken = new Token(floatToken, curLineNum());
+								tempToken.floatLit = ftToken;
+		
+								curLineTokens.add(tempToken);
+							}
+		
+							else {
+								int end = i;
+			
+								int intToken = Integer.valueOf(line.substring(start, end + 1));
+								Token tempToken = new Token(integerToken, curLineNum());
+								tempToken.integerLit = intToken;
+			
+								curLineTokens.add(tempToken);
+							}
 						}
 	
 						else {
 							int end = i;
-		
+				
 							int intToken = Integer.valueOf(line.substring(start, end + 1));
 							Token tempToken = new Token(integerToken, curLineNum());
 							tempToken.integerLit = intToken;
@@ -286,56 +290,76 @@ public class Scanner {
 						}
 					}
 
-					else {
-						int end = i;
-			
-						int intToken = Integer.valueOf(line.substring(start, end + 1));
-						Token tempToken = new Token(integerToken, curLineNum());
-						tempToken.integerLit = intToken;
-	
-						curLineTokens.add(tempToken);
-					}
 				}
 
 				// If none of the above match, check to see which symbol. We check double-digit symbols separately, and loop through the token kinds if it is a single-digit symbol.
 				else {
+					if (quoteCount % 2 != 0){
+						curLineTokens.add(new Token(newLineToken,curLineNum()));
+	
+						for (Token t: curLineTokens) {
+							Main.log.noteToken(t);
+						}
+						return;
+					}
+
 					if (line.charAt(i) == '='){
 						if (line.charAt(i+1) == '='){
+							isInDoubleChars = true;
 							curLineTokens.add(new Token(doubleEqualToken, curLineNum()));
 						} 
 						
 						else{
-							curLineTokens.add(new Token(equalToken, curLineNum()));
+							if(isInDoubleChars){
+								isInDoubleChars = false;
+							}else{
+								curLineTokens.add(new Token(equalToken, curLineNum()));
+							}
 						}
 					} 
 					
 					else if (line.charAt(i) == '<'){
 						if (line.charAt(i+1) == '='){
+							isInDoubleChars = true;
 							curLineTokens.add(new Token(lessEqualToken, curLineNum()));
 						}
 						
 						else {
-							curLineTokens.add(new Token(lessToken, curLineNum()));
+							if(isInDoubleChars){
+								isInDoubleChars = false;
+							}else{
+								curLineTokens.add(new Token(lessToken, curLineNum()));
+							}
 						}
 					}
 					
 					else if (line.charAt(i) == '>'){
 						if (line.charAt(i+1) == '='){
+							isInDoubleChars = true;
 							curLineTokens.add(new Token(greaterEqualToken, curLineNum()));
 						}
 						
 						else {
-							curLineTokens.add(new Token(greaterToken, curLineNum()));
+							if(isInDoubleChars){
+								isInDoubleChars = false;
+							}else{
+								curLineTokens.add(new Token(greaterToken, curLineNum()));
+							}
 						}
 					}
 					
 					else if (line.charAt(i) == '/'){
 						if (line.charAt(i+1) == '/'){
+							isInDoubleChars = true;
 							curLineTokens.add(new Token(doubleSlashToken, curLineNum()));
 						}
 						
 						else {
-							curLineTokens.add(new Token(slashToken, curLineNum()));
+							if(isInDoubleChars){
+								isInDoubleChars = false;
+							}else{
+								curLineTokens.add(new Token(slashToken, curLineNum()));
+							}
 						}
 					}
 					
@@ -346,15 +370,23 @@ public class Scanner {
 					}
 					
 					else {
+						//any delimeters, operators or other that do not require special treatment
+						System.out.println("quotecount: " + quoteCount);
 						if (quoteCount % 2 == 0) {
+							int tokenCount = 0;
 							for (TokenKind t : TokenKind.values()){
 								if (t.image.charAt(0) == line.charAt(i)) {
+									tokenCount++;
 									curLineTokens.add(new Token(t, curLineNum()));
 								}
+							}
+							if(tokenCount == 0){
+								scannerError("Unknown symbol.");
 							}
 						}
 
 						else {
+							quoteCount++;
 							// DO NOTHING
 						}
 					}
@@ -463,8 +495,8 @@ public class Scanner {
 
 		if (indentCount != indents.peek()){
 			// Indenteringsfeil.
-			System.out.println(indentCount + " og " + indents.peek());
-			System.out.println("Indenteringsfeil.");
+			//System.out.println(indentCount + " og " + indents.peek());
+			scannerError("Wrong indentation.");
 		}
 	}
 
