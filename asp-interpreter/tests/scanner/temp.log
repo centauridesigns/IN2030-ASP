@@ -1,0 +1,21 @@
+   1: hello = 'Mante\n' #komme kommentar
+Scanner: name token on line 1: hello
+Scanner: = token on line 1
+Scanner: string literal token on line 1: "Mante\n"
+Scanner: NEWLINE token on line 1
+   2: i = 5
+Scanner: name token on line 2: i
+Scanner: = token on line 2
+Scanner: integer literal token on line 2: 5
+Scanner: NEWLINE token on line 2
+   3: j = 600.8777
+Scanner: name token on line 3: j
+Scanner: = token on line 3
+Scanner: float literal token on line 3: 600.8770141601562
+Scanner: NEWLINE token on line 3
+   4: x = 6
+Scanner: name token on line 4: x
+Scanner: = token on line 4
+Scanner: integer literal token on line 4: 6
+Scanner: NEWLINE token on line 4
+Scanner: E-o-f token

@@ -58,6 +58,7 @@ public class Scanner {
 
     private void readNextLine() {
 		int quoteCount = 0;
+		boolean isInFloat = false;
 		curLineTokens.clear();
 
 		// Read the next line:
@@ -80,7 +81,12 @@ public class Scanner {
 
 		// If there are no more lines to read, add an EOF token.
 		if (sourceFile == null) {
+			if (quoteCount % 2 != 0) {
+				scannerError("Unclosed string");
+			}
+
 			curLineTokens.add(new Token(eofToken, curLineNum()));
+
 			for (Token t: curLineTokens) {
 				Main.log.noteToken(t);
 			}
@@ -88,11 +94,6 @@ public class Scanner {
 
 		// If there are lines to read, continue reading.
 		else {
-
-			// If the sentence contains a #, regard the whole as a comment. This must be rewritten to allow for post-code comments.
-			for (int i = 0; i < line.length(); i++) {
-				if (line.charAt(i) == '#') return;
-			}
 	
 			// Expand the leading tabs, converting them onto spaces.
 			line = expandLeadingTabs(line);
@@ -107,8 +108,24 @@ public class Scanner {
 			for (int i = 0; i < line.length(); i++) {
 				//System.out.println(line);
 
+				if (!isDigit(line.charAt(i)) && isInFloat) {
+					isInFloat = false;
+				}
+
 				// If the line contains a space, do nothing. 
 				if (line.charAt(i) == ' ');
+
+				// If the sentence contains a #, regard the whole as a comment. This must be rewritten to allow for post-code comments.
+				else if (line.charAt(i) == '#') {
+					// Terminate line. A token of this kind should not be created when mid-string.
+					curLineTokens.add(new Token(newLineToken,curLineNum()));
+
+					for (Token t: curLineTokens) {
+						Main.log.noteToken(t);
+					}
+
+					return;
+				}
 				
 				// If the line contains a quotation mark, read until the next quotation mark (unless it is an ending quotation mark).
 				// Does not take into consideration NEWLINE mid-string, which must be corrected.
@@ -117,7 +134,7 @@ public class Scanner {
 						int start = i + 1;
 						int end = start;
 	
-						while (line.charAt(end) != '\"') {
+						while (line.charAt(end) != '\"' && end < line.length() - 1) {
 							end++;
 						}
 	
@@ -144,7 +161,7 @@ public class Scanner {
 						int start = i + 1;
 						int end = start;
 	
-						while (line.charAt(end) != '\'') {
+						while (line.charAt(end) != '\'' && end < line.length() - 1) {
 							end++;
 						}
 	
@@ -198,18 +215,66 @@ public class Scanner {
 	
 				// If a digit is read, continue reading until no digits persist. Create a TOKEN.
 				else if (isDigit(line.charAt(i))) {
-					int start = i;
-					while(isDigit(line.charAt(i+1))){
-						i++;
+					if (isInFloat) {
+						return;
 					}
-					//setter end til i, substring tar ikke med endindex
-					int end = i;
 
-					int intToken = Integer.valueOf(line.substring(start, end + 1));
-					Token tempToken = new Token(integerToken, curLineNum());
-					tempToken.integerLit = intToken;
+					int start = i;
 
-					curLineTokens.add(tempToken);
+					if (i + 1 < line.length() - 1) {
+						System.out.println("A");
+
+						// Multidigit integer/float
+						while(isDigit(line.charAt(i + 1))){
+							System.out.println("B");
+							i++;
+						}
+
+						// Float
+						if (line.charAt(i + 1) == '.') {
+							System.out.println("C");
+							isInFloat = true;
+							i++;
+							
+							
+							System.out.println("D");
+							
+							// Remainder of decimals in float
+							while(isDigit(line.charAt(i + 1)) && i + 1 < line.length() - 1){
+								System.out.println("E");
+								i++;
+							}
+	
+							int end = i++;
+							System.out.println(line.substring(start, end + 2));
+	
+							Float ftToken = Float.parseFloat(line.substring(start, end + 1));
+							Token tempToken = new Token(floatToken, curLineNum());
+							tempToken.floatLit = ftToken;
+	
+							curLineTokens.add(tempToken);
+						}
+	
+						else {
+							int end = i;
+		
+							int intToken = Integer.valueOf(line.substring(start, end + 1));
+							Token tempToken = new Token(integerToken, curLineNum());
+							tempToken.integerLit = intToken;
+		
+							curLineTokens.add(tempToken);
+						}
+					}
+
+					else {
+						int end = i;
+			
+						int intToken = Integer.valueOf(line.substring(start, end + 1));
+						Token tempToken = new Token(integerToken, curLineNum());
+						tempToken.integerLit = intToken;
+	
+						curLineTokens.add(tempToken);
+					}
 				}
 
 				// If none of the above match, check to see which symbol. We check double-digit symbols separately, and loop through the token kinds if it is a single-digit symbol.
@@ -274,6 +339,10 @@ public class Scanner {
 						}
 					}
 				}
+			}
+
+			if (quoteCount %2 != 0) {
+				scannerError("String literal unended");
 			}
 	
 			// Terminate line. A token of this kind should not be created when mid-string.
