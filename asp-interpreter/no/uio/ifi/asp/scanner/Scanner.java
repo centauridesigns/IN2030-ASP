@@ -221,7 +221,7 @@ public class Scanner {
 
 					int start = i;
 
-					if (i + 1 < line.length() - 1) {
+					if (i + 1 < line.length()) {
 						System.out.println("A");
 
 						// Multidigit integer/float
@@ -233,20 +233,40 @@ public class Scanner {
 						// Float
 						if (line.charAt(i + 1) == '.') {
 							System.out.println("C");
+							boolean completeFloat = false;
 							isInFloat = true;
-							i++;
+							i = i+2;
 							
-							
-							System.out.println("D");
-							
+							System.out.println("i = " + i);
+							System.out.println("line length " + line.length());
+							System.out.println("char at i " + line.charAt(i-1));
+
+							if(line.charAt(i-1) == '.' && line.length() == i){
+								isInFloat = false;
+								scannerError("dritt");
+							}
+
 							// Remainder of decimals in float
-							while(isDigit(line.charAt(i + 1)) && i + 1 < line.length() - 1){
+							while(i < line.length()-1 && isDigit(line.charAt(i))){
+								completeFloat = true;
 								System.out.println("E");
 								i++;
 							}
-	
-							int end = i++;
-							System.out.println(line.substring(start, end + 2));
+							//System.out.println("substring " + line.substring(start, i + 1));
+							
+							
+							if(!completeFloat && isDigit(line.charAt(i))){
+								completeFloat = true;
+							}
+							
+
+							if(!completeFloat){
+								isInFloat = false;
+								scannerError("dritt");
+							}
+						
+							int end = i;
+							System.out.println(line.substring(start, end + 1));
 	
 							Float ftToken = Float.parseFloat(line.substring(start, end + 1));
 							Token tempToken = new Token(floatToken, curLineNum());

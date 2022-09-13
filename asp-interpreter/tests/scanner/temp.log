@@ -11,11 +11,12 @@ Scanner: NEWLINE token on line 2
    3: j = 600.8777
 Scanner: name token on line 3: j
 Scanner: = token on line 3
-Scanner: float literal token on line 3: 600.8770141601562
+Scanner: float literal token on line 3: 600.877685546875
 Scanner: NEWLINE token on line 3
-   4: x = 6
+   4: x = 6.9
 Scanner: name token on line 4: x
 Scanner: = token on line 4
-Scanner: integer literal token on line 4: 6
+Scanner: float literal token on line 4: 6.900000095367432
 Scanner: NEWLINE token on line 4
-Scanner: E-o-f token
+   5: l = 5.
+Asp scanner error on line 5: dritt
