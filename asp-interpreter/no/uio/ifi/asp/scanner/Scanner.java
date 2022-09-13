@@ -40,7 +40,6 @@ public class Scanner {
 		Main.error(m);
     }
 
-
     public Token curToken() {
 		while (curLineTokens.isEmpty()) {
 			readNextLine();
@@ -49,12 +48,10 @@ public class Scanner {
 		return curLineTokens.get(0);
     }
 
-
     public void readNextToken() {
 		if (! curLineTokens.isEmpty())
 			curLineTokens.remove(0);
     }
-
 
     private void readNextLine() {
 		boolean isInFloat = false;
@@ -138,10 +135,8 @@ public class Scanner {
 					}
 
 					if(line.charAt(end) != '\"'){
-						scannerError("Unended string literal.");
+						scannerError("Encountered unended string literal.");
 					}
-
-
 
 					String sToken = line.substring(start, end);
 
@@ -159,13 +154,15 @@ public class Scanner {
 					int start = i + 1;
 					int end = start;
 
+					// Continue iterating through the string until a quotation mark is read. The for-loop skips past the string, ensuring it is not read again.
 					while (end < line.length() - 1 && line.charAt(end) != '\'') {
 						i++;
 						end++;
 					}
 
+					// If a NEWLINE does not occur at the end of the line, the string is unended.
 					if(line.charAt(end) != '\''){
-						scannerError("Unended string literal.");
+						scannerError("Encountered unended string literal.");
 					}
 
 					String sToken = line.substring(start, end);
@@ -214,12 +211,12 @@ public class Scanner {
 	
 						if (i + 1 < line.length()) {
 	
-							// Multidigit integer/float
+							// The encountered integer is more than 1 digit long.
 							while(isDigit(line.charAt(i + 1))){
 								i++;
 							}
 	
-							// Float
+							// The encountered digit contains a decimal point.
 							if (line.charAt(i + 1) == '.') {
 								boolean completeFloat = false;
 								isInFloat = true;
@@ -228,25 +225,24 @@ public class Scanner {
 	
 								if(line.charAt(i-1) == '.' && line.length() == i){
 									isInFloat = false;
-									scannerError("Float is not formatted correctly.");
+									scannerError("Encountered unended or incorrectly formatted float.");
 								}
 	
-								// Remainder of decimals in float
-								while(i < line.length()-1 && isDigit(line.charAt(i))){
+								// Read the remaining decimals following the decimal point.
+								while(i < line.length() - 1 && isDigit(line.charAt(i))){
 									completeFloat = true;
 									i++;
 								}
-								//System.out.println("substring " + line.substring(start, i + 1));
 								
-								
+								// Set the float to complete whence the last digit is not a decimal point.
 								if(!completeFloat && isDigit(line.charAt(i))){
 									completeFloat = true;
 								}
 								
-	
+								// If a decimal point is found at the last digit, throw an error.
 								if(!completeFloat){
 									isInFloat = false;
-									scannerError("Float is not formatted correctly.");
+									scannerError("Encountered unended or incorrectly formatted float.");
 								}
 							
 								int end = i;
@@ -259,6 +255,7 @@ public class Scanner {
 								curLineTokens.add(tempToken);
 							}
 		
+							// The encountered multi-digit integer does not contain a decimal point.
 							else {
 								int end = i;
 			
@@ -270,6 +267,7 @@ public class Scanner {
 							}
 						}
 	
+						// The encountered single digit integer does not contain a decimal point.
 						else {
 							int end = i;
 				
@@ -283,7 +281,7 @@ public class Scanner {
 
 				}
 
-				// If none of the above match, check to see which symbol. We check double-digit symbols separately, and loop through the token kinds if it is a single-digit symbol.
+				// If none of the above match the encountered symbol, check to see which. We check double-digit symbols separately, and loop through the token kinds if it is a single-digit symbol.
 				else {
 					if (line.charAt(i) == '='){
 						if (line.charAt(i+1) == '='){
@@ -351,8 +349,8 @@ public class Scanner {
 						}
 					}
 					
+					// If no special-case symbol has been found, cross-reference it with the list of tokens.
 					else {
-						//any delimeters, operators or other that do not require special treatment
 						int tokenCount = 0;
 						for (TokenKind t : TokenKind.values()){
 							if (t.image.charAt(0) == line.charAt(i)) {
@@ -360,12 +358,15 @@ public class Scanner {
 								curLineTokens.add(new Token(t, curLineNum()));
 							}
 						}
+
+						// If the symbol is not in the list of known symbols, it cannot be handled and is illegal.
 						if(tokenCount == 0){
-							scannerError("Unknown symbol.");
+							scannerError("Encountered unknown symbol.");
 						}
 					}
 				}
 			}
+
 			// Terminate line. A token of this kind should not be created when mid-string.
 			curLineTokens.add(new Token(newLineToken,curLineNum()));
 	
@@ -373,8 +374,6 @@ public class Scanner {
 				Main.log.noteToken(t);
 			}
 		}
-
-
     }
 
     public int curLineNum() {
@@ -463,9 +462,7 @@ public class Scanner {
 		else if (indentCount == indents.peek());
 
 		if (indentCount != indents.peek()){
-			// Indenteringsfeil.
-			//System.out.println(indentCount + " og " + indents.peek());
-			scannerError("Wrong indentation.");
+			scannerError("Encountered incorrect indentation level.");
 		}
 	}
 
