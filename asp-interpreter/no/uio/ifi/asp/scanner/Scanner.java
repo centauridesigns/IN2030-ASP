@@ -361,7 +361,13 @@ public class Scanner {
 
 						// If the symbol is not in the list of known symbols, it cannot be handled and is illegal.
 						if(tokenCount == 0){
-							scannerError("Encountered unknown symbol.");
+							if (line.charAt(i) == '	') {
+
+							}
+
+							else {
+								scannerError("Encountered unknown symbol.");
+							}
 						}
 					}
 				}
@@ -416,15 +422,14 @@ public class Scanner {
 			m++;
 		}
 
-		//Legger til riktig antall spaces og resten av stringen
+		// Legger til riktig antall spaces og resten av stringen
 		for (int i = 0; i < n; i++) {
 			tmp += ' ';
 		}
 
-		System.out.println(s.substring(m - 1));
+		//System.out.println(s.substring(m - 1));
 
 		tmp += s.substring(m - 1);
-		
 		return tmp;
     }
 

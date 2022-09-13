@@ -21,7 +21,7 @@ public class Main {
 	    logE = false, logP = false, logS = false, logY = false;
 
 	System.out.println("This is the IN2030 Asp interpreter (" +
-			   version + ") by Souhail and Mads");
+			   version + ") by Souhail and Mads.\n");
 
 	for (String a: arg) {
 	    if (a.equals("-logE")) {
@@ -48,6 +48,8 @@ public class Main {
 	}
 	if (fileName == null) usage();
 
+	System.out.println("Reading file " + fileName + "\n");
+
 	baseFilename = fileName;
 	if (baseFilename.endsWith(".asp"))
 	    baseFilename = baseFilename.substring(0,baseFilename.length()-4);
@@ -71,6 +73,7 @@ public class Main {
 	    doRunInterpreter(s);
 
 	if (log != null) log.finish();
+	System.out.println("File succesfully read.");
 	System.exit(0);
     }
 

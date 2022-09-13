@@ -7,4 +7,4 @@ Scanner: = token on line 3
 Scanner: string literal token on line 3: "The price is $2.50"
 Scanner: NEWLINE token on line 3
    4: a$b = 1234567890           # 'Illegal character'
-Asp scanner error on line 4: Unknown symbol.
+Asp scanner error on line 4: Encountered unknown symbol.

@@ -7,4 +7,4 @@ Scanner: = token on line 3
 Scanner: float literal token on line 3: 2.0
 Scanner: NEWLINE token on line 3
    4: v = v + .5  # Ingenting foran desimalpunktum
-Asp scanner error on line 4: Unknown symbol.
+Asp scanner error on line 4: Encountered unknown symbol.

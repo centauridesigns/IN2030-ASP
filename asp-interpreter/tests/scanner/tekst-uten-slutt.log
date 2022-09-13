@@ -16,4 +16,4 @@ Scanner: = token on line 5
 Scanner: string literal token on line 5: "Denne også"
 Scanner: NEWLINE token on line 5
    6: t3 = 'Denne starter her
-Asp scanner error on line 6: Unended string literal.
+Asp scanner error on line 6: Encountered unended string literal.

@@ -2,4 +2,4 @@
 Scanner: NEWLINE token on line 1
    2: 
    3: v = 2.   # Ingenting etter desimalpunktum
-Asp scanner error on line 3: Float is not formatted correctly.
+Asp scanner error on line 3: Encountered unended or incorrectly formatted float.
