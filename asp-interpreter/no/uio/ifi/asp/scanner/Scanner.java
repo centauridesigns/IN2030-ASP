@@ -78,7 +78,13 @@ public class Scanner {
 
 		// If there are no more lines to read, add an EOF token.
 		if (sourceFile == null) {
-			//must handle unclosed string
+			// Handle detents.
+			if (indents.peek() > 4 - (indents.peek() % 4)) {
+				while (indents.peek() > 4 - indents.peek() % 4) {
+					indents.pop();
+					curLineTokens.add(new Token(dedentToken, curLineNum()));
+				}
+			}
 
 			curLineTokens.add(new Token(eofToken, curLineNum()));
 
@@ -188,19 +194,10 @@ public class Scanner {
 					String nToken = line.substring(start, end + 1);
 					Token tempToken = new Token(nameToken, curLineNum());
 					tempToken.name = nToken;
+
+					tempToken.checkResWords();
 	
-					if(!keywords.contains(nToken)){
-						curLineTokens.add(tempToken);
-					}
-					
-					else{
-						// Loop through the token list, if the read string matches one of the token names, generate said token.
-						for(TokenKind t : TokenKind.values()){
-							if(t.equals(nToken)){
-								curLineTokens.add(new Token(t, curLineNum()));
-							}
-						}
-					}
+					curLineTokens.add(tempToken);
 				}
 	
 				// If a digit is read, continue reading until no digits persist. Create a TOKEN.
@@ -212,12 +209,12 @@ public class Scanner {
 						if (i + 1 < line.length()) {
 	
 							// The encountered integer is more than 1 digit long.
-							while(isDigit(line.charAt(i + 1))){
+							while(i < line.length() - 1 && isDigit(line.charAt(i + 1))){
 								i++;
 							}
 	
 							// The encountered digit contains a decimal point.
-							if (line.charAt(i + 1) == '.') {
+							if (i + 1 < line.length() - 1 && line.charAt(i + 1) == '.') {
 								boolean completeFloat = false;
 								isInFloat = true;
 								i = i+2;

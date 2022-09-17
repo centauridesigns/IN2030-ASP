@@ -1,0 +1,4 @@
+   1: # En listeindeks må være et heltall:
+Scanner: NEWLINE token on line 1
+   2: 
+   3: ["a", "e", "i", "o", "u"] [2.5]

@@ -1,0 +1,86 @@
+   1: hello = 'Mante\n' #komme kommentar
+Scanner: name token on line 1: hello
+Scanner: = token on line 1
+Scanner: string literal token on line 1: "Mante\n"
+Scanner: NEWLINE token on line 1
+   2: i = 5
+Scanner: name token on line 2: i
+Scanner: = token on line 2
+Scanner: integer literal token on line 2: 5
+Scanner: NEWLINE token on line 2
+   3: j = 600.8777
+Scanner: name token on line 3: j
+Scanner: = token on line 3
+Scanner: float literal token on line 3: 600.877685546875
+Scanner: NEWLINE token on line 3
+   4: x = 6
+Scanner: name token on line 4: x
+Scanner: = token on line 4
+Scanner: integer literal token on line 4: 6
+Scanner: NEWLINE token on line 4
+   5: x = 6.9
+Scanner: name token on line 5: x
+Scanner: = token on line 5
+Scanner: float literal token on line 5: 6.900000095367432
+Scanner: NEWLINE token on line 5
+   6: l = 5
+Scanner: name token on line 6: l
+Scanner: = token on line 6
+Scanner: integer literal token on line 6: 5
+Scanner: NEWLINE token on line 6
+   7: if a:
+Scanner: if token on line 7
+Scanner: name token on line 7: a
+Scanner: : token on line 7
+Scanner: NEWLINE token on line 7
+   8:     print("yes")
+Scanner: INDENT token on line 8
+Scanner: name token on line 8: print
+Scanner: ( token on line 8
+Scanner: string literal token on line 8: "yes"
+Scanner: ) token on line 8
+Scanner: NEWLINE token on line 8
+   9: 
+  10:     if a:
+Scanner: if token on line 10
+Scanner: name token on line 10: a
+Scanner: : token on line 10
+Scanner: NEWLINE token on line 10
+  11:         print("no")
+Scanner: INDENT token on line 11
+Scanner: name token on line 11: print
+Scanner: ( token on line 11
+Scanner: string literal token on line 11: "no"
+Scanner: ) token on line 11
+Scanner: NEWLINE token on line 11
+  12: 
+  13:         if b:
+Scanner: if token on line 13
+Scanner: name token on line 13: b
+Scanner: : token on line 13
+Scanner: NEWLINE token on line 13
+  14:             print("ues")
+Scanner: INDENT token on line 14
+Scanner: name token on line 14: print
+Scanner: ( token on line 14
+Scanner: string literal token on line 14: "ues"
+Scanner: ) token on line 14
+Scanner: NEWLINE token on line 14
+  15: 
+  16:                  if c:
+Scanner: INDENT token on line 16
+Scanner: if token on line 16
+Scanner: name token on line 16: c
+Scanner: : token on line 16
+Scanner: NEWLINE token on line 16
+  17:                     do not print
+Scanner: INDENT token on line 17
+Scanner: name token on line 17: do
+Scanner: not token on line 17
+Scanner: name token on line 17: print
+Scanner: NEWLINE token on line 17
+Scanner: DEDENT token
+Scanner: DEDENT token
+Scanner: DEDENT token
+Scanner: DEDENT token
+Scanner: E-o-f token
