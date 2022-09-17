@@ -202,14 +202,14 @@ public class Scanner {
 	
 				// If a digit is read, continue reading until no digits persist. Create a TOKEN.
 				else if (isDigit(line.charAt(i))) {
-					if (!isInFloat){
+					if (!isInFloat) {
 
 						int start = i;
 	
 						if (i + 1 < line.length()) {
 	
 							// The encountered integer is more than 1 digit long.
-							while(i < line.length() - 1 && isDigit(line.charAt(i + 1))){
+							while (i + 1 < line.length() - 1 && isDigit(line.charAt(i + 1))) {
 								i++;
 							}
 	
@@ -220,36 +220,38 @@ public class Scanner {
 								i = i+2;
 								
 	
-								if(line.charAt(i-1) == '.' && line.length() == i){
+								if (line.charAt(i-1) == '.' && line.length() == i) {
 									isInFloat = false;
 									scannerError("Encountered unended or incorrectly formatted float.");
 								}
 	
 								// Read the remaining decimals following the decimal point.
-								while(i < line.length() - 1 && isDigit(line.charAt(i))){
+								while (i < line.length() - 1 && isDigit(line.charAt(i))) {
 									completeFloat = true;
 									i++;
 								}
 								
 								// Set the float to complete whence the last digit is not a decimal point.
-								if(!completeFloat && isDigit(line.charAt(i))){
+								if (!completeFloat && isDigit(line.charAt(i))) {
 									completeFloat = true;
 								}
 								
 								// If a decimal point is found at the last digit, throw an error.
-								if(!completeFloat){
+								if (!completeFloat) {
 									isInFloat = false;
 									scannerError("Encountered unended or incorrectly formatted float.");
 								}
 							
 								int end = i;
-								//System.out.println(line.substring(start, end + 1));
-		
-								Float ftToken = Float.parseFloat(line.substring(start, end + 1));
-								Token tempToken = new Token(floatToken, curLineNum());
-								tempToken.floatLit = ftToken;
-		
-								curLineTokens.add(tempToken);
+								
+								try {
+									Float ftToken = Float.parseFloat(line.substring(start, end + 1));
+									Token tempToken = new Token(floatToken, curLineNum());
+									tempToken.floatLit = ftToken;
+									curLineTokens.add(tempToken);
+								} catch(NumberFormatException e) {
+									scannerError("List index can not be a float.");
+								}
 							}
 		
 							// The encountered multi-digit integer does not contain a decimal point.

@@ -2,3 +2,4 @@
 Scanner: NEWLINE token on line 1
    2: 
    3: ["a", "e", "i", "o", "u"] [2.5]
+Asp scanner error on line 3: List index can not be a float.

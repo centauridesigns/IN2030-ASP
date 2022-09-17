@@ -4,7 +4,8 @@ Scanner: NEWLINE token on line 1
    3: y = 2021
 Scanner: name token on line 3: y
 Scanner: = token on line 3
-Scanner: integer literal token on line 3: 2021
+Scanner: integer literal token on line 3: 202
+Scanner: integer literal token on line 3: 1
 Scanner: NEWLINE token on line 3
    4: while y <= 2025:
 Scanner: while token on line 4
@@ -19,21 +20,24 @@ Scanner: name token on line 5: a
 Scanner: = token on line 5
 Scanner: name token on line 5: y
 Scanner: % token on line 5
-Scanner: integer literal token on line 5: 19
+Scanner: integer literal token on line 5: 1
+Scanner: integer literal token on line 5: 9
 Scanner: NEWLINE token on line 5
    6:    b = y // 100
 Scanner: name token on line 6: b
 Scanner: = token on line 6
 Scanner: name token on line 6: y
 Scanner: // token on line 6
-Scanner: integer literal token on line 6: 100
+Scanner: integer literal token on line 6: 10
+Scanner: integer literal token on line 6: 0
 Scanner: NEWLINE token on line 6
    7:    c = y % 100
 Scanner: name token on line 7: c
 Scanner: = token on line 7
 Scanner: name token on line 7: y
 Scanner: % token on line 7
-Scanner: integer literal token on line 7: 100
+Scanner: integer literal token on line 7: 10
+Scanner: integer literal token on line 7: 0
 Scanner: NEWLINE token on line 7
    8:    d = b // 4
 Scanner: name token on line 8: d
@@ -58,7 +62,8 @@ Scanner: + token on line 10
 Scanner: integer literal token on line 10: 8
 Scanner: ) token on line 10
 Scanner: // token on line 10
-Scanner: integer literal token on line 10: 25
+Scanner: integer literal token on line 10: 2
+Scanner: integer literal token on line 10: 5
 Scanner: NEWLINE token on line 10
   11:    g = (b-f+1) // 3
 Scanner: name token on line 11: g
@@ -90,7 +95,8 @@ Scanner: + token on line 12
 Scanner: integer literal token on line 12: 15
 Scanner: ) token on line 12
 Scanner: % token on line 12
-Scanner: integer literal token on line 12: 30
+Scanner: integer literal token on line 12: 3
+Scanner: integer literal token on line 12: 0
 Scanner: NEWLINE token on line 12
   13:    i = c // 4
 Scanner: name token on line 13: i
@@ -142,7 +148,8 @@ Scanner: * token on line 16
 Scanner: name token on line 16: l
 Scanner: ) token on line 16
 Scanner: // token on line 16
-Scanner: integer literal token on line 16: 451
+Scanner: integer literal token on line 16: 45
+Scanner: integer literal token on line 16: 1
 Scanner: NEWLINE token on line 16
   17: 
   18:    month = (h+l-7*m+114) // 31
@@ -160,7 +167,8 @@ Scanner: + token on line 18
 Scanner: integer literal token on line 18: 114
 Scanner: ) token on line 18
 Scanner: // token on line 18
-Scanner: integer literal token on line 18: 31
+Scanner: integer literal token on line 18: 3
+Scanner: integer literal token on line 18: 1
 Scanner: NEWLINE token on line 18
   19:    day = (h+l-7*m+114) % 31 + 1
 Scanner: name token on line 19: day

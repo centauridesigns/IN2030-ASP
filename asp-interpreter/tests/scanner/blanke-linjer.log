@@ -21,6 +21,7 @@ Scanner: INDENT token on line 10
 Scanner: NEWLINE token on line 10
   11: if 1+1 = 2:
 Scanner: DEDENT token on line 11
+Scanner: if token on line 11
 Scanner: integer literal token on line 11: 1
 Scanner: + token on line 11
 Scanner: integer literal token on line 11: 1
