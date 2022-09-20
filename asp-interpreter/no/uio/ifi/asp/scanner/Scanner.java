@@ -483,7 +483,10 @@ public class Scanner {
 
     public boolean isCompOpr() {
 		TokenKind k = curToken().kind;
-		//-- Must be changed in part 2:
+		
+		if(k == lessToken || k == lessEqualToken || k == greaterToken || k == greaterEqualToken || k == doubleEqualToken || k == notEqualToken){
+			return true;
+		} 
 		return false;
     }
 

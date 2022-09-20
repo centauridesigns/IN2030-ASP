@@ -5,12 +5,13 @@ package no.uio.ifi.asp.parser;
 import no.uio.ifi.asp.main.*;
 import no.uio.ifi.asp.runtime.*;
 import no.uio.ifi.asp.scanner.*;
+import java.util.ArrayList;
 
 public abstract class AspSyntax {
     public int lineNum;
 
     AspSyntax(int n) {
-	lineNum = n;
+	    lineNum = n;
     }
 
 
@@ -19,10 +20,10 @@ public abstract class AspSyntax {
 
 
     static void parserError(String message, int lineNum) {
-	String m = "Asp parser error";
-	if (lineNum > 0) m += " on line " + lineNum;
-	m += ": " + message;
-	Main.error(m);
+        String m = "Asp parser error";
+        if (lineNum > 0) m += " on line " + lineNum;
+        m += ": " + message;
+        Main.error(m);
     }
 
 
@@ -41,42 +42,45 @@ public abstract class AspSyntax {
 
 
     public static void skip(Scanner s, TokenKind tk) {
-	test(s, tk);
-	s.readNextToken();
+        test(s, tk);
+        s.readNextToken();
     }
 
 
     protected static void enterParser(String nonTerm) {
-	Main.log.enterParser(nonTerm);
+	    Main.log.enterParser(nonTerm);
     }
 
     protected static void leaveParser(String nonTerm) {
-	Main.log.leaveParser(nonTerm);
+	    Main.log.leaveParser(nonTerm);
     }
 
 
     protected static void prettyDedent() {
-	Main.log.prettyDedent();
+	    Main.log.prettyDedent();
     }
 
     protected static void prettyIndent() {
-	Main.log.prettyIndent();
+	    Main.log.prettyIndent();
     }
 
     protected static void prettyWrite(String s) {
-	Main.log.prettyWrite(s);
+	    Main.log.prettyWrite(s);
     }
 
     protected static void prettyWriteLn() {
-	Main.log.prettyWriteLn();
+	    Main.log.prettyWriteLn();
     }
 
     protected static void prettyWriteLn(String s) {
-	Main.log.prettyWriteLn(s);
+	    Main.log.prettyWriteLn(s);
     }
 
 
     void trace(String what) {
-	Main.log.traceEval(what, this);
+	    Main.log.traceEval(what, this);
     }
 }
+
+
+
