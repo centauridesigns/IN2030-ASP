@@ -185,9 +185,10 @@ public class Scanner {
 				else if (isLetterAZ(line.charAt(i))) {
 					int start = i;
 
-					while(i < line.length()-1 && isLetterAZ(line.charAt(i+1))){
+					while(i < line.length() - 1 && (isLetterAZ(line.charAt(i + 1)) || (isDigit(line.charAt(i + 1))))){
 						i++;
 					}
+
 					// Set end to I, the substring does not take into account the end-index.
 					int end = i;
 
@@ -203,13 +204,11 @@ public class Scanner {
 				// If a digit is read, continue reading until no digits persist. Create a TOKEN.
 				else if (isDigit(line.charAt(i))) {
 					if (!isInFloat) {
-
 						int start = i;
 	
 						if (i + 1 < line.length()) {
-	
 							// The encountered integer is more than 1 digit long.
-							while (i + 1 < line.length() - 1 && isDigit(line.charAt(i + 1))) {
+							while (i + 1 < line.length() && isDigit(line.charAt(i + 1))) {
 								i++;
 							}
 	
