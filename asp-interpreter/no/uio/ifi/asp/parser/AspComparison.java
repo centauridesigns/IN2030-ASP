@@ -8,7 +8,7 @@ public class AspComparison extends AspSyntax{
         super(n);
     }
 
-    static AspComparison parse(Scanner s){
+    static AspComparison parse(Scanner s) {
         AspComparison ac = new AspComparison(s.curLineNum());
         
         while (true){
@@ -19,12 +19,12 @@ public class AspComparison extends AspSyntax{
     }
 
     @Override
-    void prettyPrint(){
+    void prettyPrint() {
 
     }
 
     @Override
-    RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue{
+    RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
         
     }
 
