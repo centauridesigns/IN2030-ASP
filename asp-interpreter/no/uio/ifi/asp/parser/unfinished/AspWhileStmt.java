@@ -1,8 +1,8 @@
 package no.uio.ifi.asp.parser.unfinished;
 
 import no.uio.ifi.asp.scanner.Scanner;
-import static no.uio.ifi.asp.scanner.TokenKind.*;
 import no.uio.ifi.asp.parser.*;
+import static no.uio.ifi.asp.scanner.TokenKind.*;
 
 
 public class AspWhileStmt extends AspCompoundStmt {

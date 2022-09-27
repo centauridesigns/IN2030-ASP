@@ -6,7 +6,6 @@ public class AspCompOpr extends AspSyntax{
     }
 
     static AspCompOpr parse(Scanner s){
-        
         AspCompOpr aco = new AspCompOpr(s.curLineNum());
         return aco;
     }
