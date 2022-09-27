@@ -16,6 +16,7 @@ public class AspPassStmt extends AspSmallStmt {
         skip(s, passToken);
 
         leaveParser("pass stmt");
+        return statement;
     }
 }
 

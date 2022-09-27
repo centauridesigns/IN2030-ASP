@@ -29,5 +29,6 @@ public abstract class AspStmt extends AspSyntax{
         }
 
         leaveParser("stmt");
+        return as;
     }
 }

@@ -2,6 +2,7 @@ package no.uio.ifi.asp.parser.unfinished;
 
 import no.uio.ifi.asp.parser.*;
 import no.uio.ifi.asp.scanner.*;
+import static no.uio.ifi.asp.scanner.TokenKind.*;
 
 public class AspReturnStmt extends AspSmallStmt {
     AspExpr statement;
@@ -19,5 +20,6 @@ public class AspReturnStmt extends AspSmallStmt {
         ars.statement = AspExpr.parse(s);
         
         leaveParser("return stmt");
+        return ars;
     }
 }

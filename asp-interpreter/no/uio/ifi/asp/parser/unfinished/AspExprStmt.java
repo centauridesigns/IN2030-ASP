@@ -18,5 +18,6 @@ public class AspExprStmt extends AspSmallStmt {
         aes.statement = AspExpr.parse(s);
 
         leaveParser("expr smt");
+        return aes;
     }
 }
