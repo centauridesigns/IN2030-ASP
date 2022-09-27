@@ -1,11 +1,12 @@
-package no.uio.ifi.asp.parser.unfinished;
-import no.uio.ifi.asp.scanner.*;
-import no.uio.ifi.asp.parser.*;
-import static no.uio.ifi.asp.scanner.TokenKind.*;
+package no.uio.ifi.asp.parser;
+
 import java.util.ArrayList;
 
-public class AspFactorOpr extends AspSyntax {
+import no.uio.ifi.asp.scanner.*;
+import no.uio.ifi.asp.parser.unfinished.*;
+import static no.uio.ifi.asp.scanner.TokenKind.*;
 
+public class AspFactorOpr extends AspSyntax {
     AspFactorOpr(int n) {
 	    super(n);
     }

@@ -3,6 +3,7 @@ package no.uio.ifi.asp.parser;
 import no.uio.ifi.asp.parser.unfinished.*;
 import no.uio.ifi.asp.scanner.*;
 
+// ABSTRACT
 public abstract class AspAtom extends AspSyntax{
     public AspAtom(int n){
         super(n);

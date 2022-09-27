@@ -1,24 +1,31 @@
 package no.uio.ifi.asp.parser.unfinished;
+import java.util.ArrayList;
+
 import no.uio.ifi.asp.scanner.*;
-import no.uio.ifi.asp.parser.*;
+import no.uio.ifi.asp.parser.unfinished.*;
 import static no.uio.ifi.asp.scanner.TokenKind.*;
 
-public class AspSubscription extends AspPrimarySuffix {
-    AspExpr expression;
-    AspSubscription(int n){
+public class AspListDisplay extends AspAtom {
+    ArrayList<AspExpr> exprs = new ArrayList<>();
+    AspListDisplay(int n){
         super(n);
     }
 
-    static AspSubscription parse(Scanner s){
+    static AspListDisplay parse(Scanner s){
         enterParser("subscription");
-        AspSubscription as = new AspSubscription(s.curLineNum());
+        AspListDisplay ald = new AspListDisplay(s.curLineNum());
 
         skip(s, leftBracketToken);
-        as.expression = AspExpr.parse(s);
+
+        while(true){
+            if (s.curToken().kind != rightBracketToken) break;
+            if (s.curToken().kind != commaToken) skip(s, commaToken);
+            ald.exprs.add(AspExpr.parse(s));
+        }
         skip(s, rightBracketToken);
  
         leaveParser("subscription");
-        return as;
+        return ald;
     }
 
     @Override

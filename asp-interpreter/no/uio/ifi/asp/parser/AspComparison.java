@@ -1,7 +1,11 @@
 package no.uio.ifi.asp.parser;
 import java.util.ArrayList;
 
-public class AspComparison extends AspSyntax{
+import no.uio.ifi.asp.scanner.*;
+import no.uio.ifi.asp.parser.unfinished.*;
+import static no.uio.ifi.asp.scanner.TokenKind.*;
+
+public class AspComparison extends AspSyntax {
     AspTerm term;
     ArrayList<AspCompOpr> compOprs = new ArrayList<>();
 
@@ -13,7 +17,7 @@ public class AspComparison extends AspSyntax{
         AspComparison ac = new AspComparison(s.curLineNum());
         
         while (true){
-            term = AspTerm.parse(s);
+            ac.term = AspTerm.parse(s);
             if (!s.isCompOpr()) break;
             ac.compOprs.add(AspCompOpr.parse(s));
         }

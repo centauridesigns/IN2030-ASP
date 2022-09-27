@@ -1,9 +1,8 @@
-package no.uio.ifi.asp.parser.unfinished;
+package no.uio.ifi.asp.parser;
 
-import no.uio.ifi.asp.scanner.Scanner;
-import no.uio.ifi.asp.parser.*;
+import no.uio.ifi.asp.scanner.*;
+import no.uio.ifi.asp.parser.unfinished.*;
 import static no.uio.ifi.asp.scanner.TokenKind.*;
-
 
 public class AspWhileStmt extends AspCompoundStmt {
     AspExpr test;
@@ -27,3 +26,4 @@ public class AspWhileStmt extends AspCompoundStmt {
         return aws;
     }
 }
+

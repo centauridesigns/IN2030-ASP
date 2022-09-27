@@ -1,10 +1,10 @@
 package no.uio.ifi.asp.parser;
 
-import no.uio.ifi.asp.parser.*;
-import no.uio.ifi.asp.parser.unfinished.AspSmallStmtList;
 import no.uio.ifi.asp.scanner.*;
+import no.uio.ifi.asp.parser.unfinished.*;
 import static no.uio.ifi.asp.scanner.TokenKind.*;
 
+// ABSTRACT
 public abstract class AspStmt extends AspSyntax{
     public AspStmt(int n){
         super(n);

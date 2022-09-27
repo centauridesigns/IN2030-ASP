@@ -1,8 +1,10 @@
-package no.uio.ifi.asp.parser.unfinished;
-import no.uio.ifi.asp.scanner.*;
-import no.uio.ifi.asp.parser.*;
-import static no.uio.ifi.asp.scanner.TokenKind.*;
+package no.uio.ifi.asp.parser;
+
 import java.util.ArrayList;
+
+import no.uio.ifi.asp.scanner.*;
+import no.uio.ifi.asp.parser.unfinished.*;
+import static no.uio.ifi.asp.scanner.TokenKind.*;
 
 public class AspPrimary extends AspSyntax{
     AspAtom atom;

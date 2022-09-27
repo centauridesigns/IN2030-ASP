@@ -1,9 +1,8 @@
 package no.uio.ifi.asp.parser;
 
-import no.uio.ifi.asp.parser.unfinished.*;
 import no.uio.ifi.asp.scanner.*;
-import static no.uio.ifi.asp.scanner.TokenKind.*;
 
+// ABSTRACT
 public abstract class AspPrimarySuffix extends AspSyntax {
     public AspPrimarySuffix(int n){
         super(n);
@@ -20,7 +19,7 @@ public abstract class AspPrimarySuffix extends AspSyntax {
                 aps = AspSubscription.parse(s);
         }
 
-        leaveParser("primary sus");
+        leaveParser("primary suffix");
 
         return aps;
     }
