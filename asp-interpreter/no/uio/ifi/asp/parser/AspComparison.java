@@ -1,4 +1,5 @@
 package no.uio.ifi.asp.parser;
+import java.util.ArrayList;
 
 public class AspComparison extends AspSyntax{
     AspTerm term;

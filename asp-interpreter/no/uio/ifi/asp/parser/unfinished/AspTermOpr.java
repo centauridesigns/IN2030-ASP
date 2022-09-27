@@ -1,4 +1,8 @@
 package no.uio.ifi.asp.parser.unfinished;
+import no.uio.ifi.asp.scanner.*;
+import no.uio.ifi.asp.parser.*;
+import static no.uio.ifi.asp.scanner.TokenKind.*;
+import java.util.ArrayList;
 
 import static no.uio.ifi.asp.scanner.TokenKind.*;
 import no.uio.ifi.asp.parser.*;
@@ -11,12 +15,29 @@ public class AspTermOpr extends AspSyntax {
 
     static AspTermOpr parse(Scanner s) {
         enterParser("term opr");
+
         AspTermOpr ato = new AspTermOpr(s.curLineNum());
 
-        if (s.curToken().kind == minusToken) skip(s, minusToken);
-        else skip(s, plusToken);
+        switch(s.curToken().kind) {
+            case plusToken:
+                skip(s, plusToken);
+            case minusToken:
+                skip(s, minusToken);
+        }
 
         leaveParser("term opr");
         return ato;
+    }
+
+    @Override
+    public void prettyPrint() {
+	    //-- Must be changed in part 2:
+    }
+
+
+    @Override
+    public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
+        //-- Must be changed in part 3:
+        return null;
     }
 }
