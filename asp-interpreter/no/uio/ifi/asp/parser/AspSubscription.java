@@ -10,7 +10,7 @@ public class AspSubscription extends AspPrimarySuffix {
         super(n);
     }
 
-    static AspSubscription parse(Scanner s){
+    public static AspSubscription parse(Scanner s){
         enterParser("subscription");
         AspSubscription as = new AspSubscription(s.curLineNum());
 

@@ -5,18 +5,20 @@ import no.uio.ifi.asp.parser.unfinished.*;
 import static no.uio.ifi.asp.scanner.TokenKind.*;
 
 public class AspFactorPrefix extends AspSyntax {
+    Token token;
+
     AspFactorPrefix(int n) {
         super(n);
     }
 
-    static AspFactorPrefix parse(Scanner s) {
+    public static AspFactorPrefix parse(Scanner s) {
         enterParser("factor prefix");
         AspFactorPrefix afp = new AspFactorPrefix(s.curLineNum());
 
-        if (s.curToken().kind == minusToken) skip(s, minusToken);
-        else skip(s, plusToken);
+        afp.token = s.curToken();
+        skip(s, s.curToken().kind);
 
-        leaveParser("term opr");
+        leaveParser("factor prefix");
         return afp;
     }
 }

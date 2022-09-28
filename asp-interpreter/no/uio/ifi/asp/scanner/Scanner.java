@@ -492,21 +492,30 @@ public class Scanner {
 
     public boolean isFactorPrefix() {
 		TokenKind k = curToken().kind;
-		//-- Must be changed in part 2:
+
+		if(k == plusToken || k == minusToken){
+			return true;
+		} 
 		return false;
     }
 
 
     public boolean isFactorOpr() {
 		TokenKind k = curToken().kind;
-		//-- Must be changed in part 2:
+
+		if(k == astToken || k == slashToken || k == percentToken || k == doubleSlashToken){
+			return true;
+		} 
 		return false;
     }
 	
 
     public boolean isTermOpr() {
 		TokenKind k = curToken().kind;
-		//-- Must be changed in part 2:
+		
+		if(k == plusToken || k == minusToken){
+			return true;
+		} 
 		return false;
     }
 
