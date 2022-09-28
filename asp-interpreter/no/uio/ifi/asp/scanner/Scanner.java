@@ -346,7 +346,13 @@ public class Scanner {
 					
 					else if (line.charAt(i) == '!'){
 						if (line.charAt(i+1) == '='){
+							isInDoubleChars = true;
 							curLineTokens.add(new Token(notEqualToken, curLineNum()));
+						}
+						else {
+							if(isInDoubleChars){
+								isInDoubleChars = false;
+							}
 						}
 					}
 					

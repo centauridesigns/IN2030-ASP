@@ -24,7 +24,8 @@ public class AspIfStmt extends AspCompoundStmt {
             ais.exprs.add(AspExpr.parse(s));
             skip(s, colonToken);
             ais.ifSuites.add(AspSuite.parse(s));
-            if(s.curToken().kind == elifToken) break;
+            if(s.curToken().kind != elifToken) break;
+            skip(s, elifToken);
         }
 
         if(s.curToken().kind == elseToken){

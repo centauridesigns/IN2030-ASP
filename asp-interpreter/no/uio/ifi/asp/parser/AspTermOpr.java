@@ -1,6 +1,5 @@
 package no.uio.ifi.asp.parser;
 import no.uio.ifi.asp.scanner.*;
-import static no.uio.ifi.asp.scanner.TokenKind.*;
 import no.uio.ifi.asp.runtime.*;
 
 public class AspTermOpr extends AspSyntax {
@@ -13,13 +12,7 @@ public class AspTermOpr extends AspSyntax {
 
         AspTermOpr ato = new AspTermOpr(s.curLineNum());
 
-        switch(s.curToken().kind) {
-            case plusToken:
-                skip(s, plusToken);
-            case minusToken:
-                skip(s, minusToken);
-            default:
-        }
+        skip(s, s.curToken().kind);
 
         leaveParser("term opr");
         return ato;

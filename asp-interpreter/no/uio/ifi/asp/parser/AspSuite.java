@@ -25,6 +25,7 @@ public class AspSuite extends AspSyntax {
                 as.stmts.add(AspStmt.parse(s));
                 if(s.curToken().kind == dedentToken) break;
             }
+            
             skip(s, dedentToken);
         }else{
             as.smallStmtList = AspSmallStmtList.parse(s);

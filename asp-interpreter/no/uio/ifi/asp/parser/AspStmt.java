@@ -24,7 +24,9 @@ public abstract class AspStmt extends AspSyntax{
             default:
         }
 
-        as = AspSmallStmtList.parse(s);
+        if(as == null){
+            as = AspSmallStmtList.parse(s);
+        }
 
         leaveParser("stmt");
         return as;
