@@ -1,7 +1,6 @@
-package no.uio.ifi.asp.parser.unfinished;
+package no.uio.ifi.asp.parser;
 import no.uio.ifi.asp.scanner.*;
 import static no.uio.ifi.asp.scanner.TokenKind.*;
-import no.uio.ifi.asp.parser.*;
 
 public class AspIntegerLiteral extends AspAtom {
     Long number;
