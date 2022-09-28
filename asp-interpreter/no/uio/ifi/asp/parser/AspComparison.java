@@ -12,7 +12,7 @@ public class AspComparison extends AspSyntax {
     }
 
     static AspComparison parse(Scanner s) {
-        enterParser("aspcomparison");
+        enterParser("comparison");
         AspComparison ac = new AspComparison(s.curLineNum());
         
         while (true){
@@ -21,7 +21,7 @@ public class AspComparison extends AspSyntax {
             ac.compOprs.add(AspCompOpr.parse(s));
         }
 
-        leaveParser("aspcomparison");
+        leaveParser("comparison");
         return ac;
     }
 

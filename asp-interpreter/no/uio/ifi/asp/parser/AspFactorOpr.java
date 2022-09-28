@@ -15,13 +15,13 @@ public class AspFactorOpr extends AspSyntax {
 
         switch(s.curToken().kind) {
             case astToken:
-                skip(s, astToken);
+                skip(s, astToken); break;
             case slashToken:
-                skip(s, slashToken);
+                skip(s, slashToken); break;
             case percentToken:
-                skip(s, percentToken);
+                skip(s, percentToken); break;
             case doubleSlashToken:
-                skip(s, doubleSlashToken);
+                skip(s, doubleSlashToken); break;
             default:
 
         }

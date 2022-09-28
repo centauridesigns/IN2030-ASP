@@ -16,7 +16,7 @@ public class AspTerm extends AspSyntax {
 
         AspTerm at = new AspTerm(s.curLineNum());
 
-        while(s.isFactorOpr() || s.isTermOpr()){
+        while(true){
             at.aspFactors.add(AspFactor.parse(s));
             if (!s.isTermOpr()) break;
             at.aspTerms.add(AspTermOpr.parse(s));

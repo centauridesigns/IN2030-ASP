@@ -12,7 +12,7 @@ public class AspAndTest extends AspSyntax {
     }
 
     static AspAndTest parse(Scanner s) {
-        enterParser("andTest");
+        enterParser("and test");
 
         AspAndTest aat = new AspAndTest(s.curLineNum());
         while (true) {
@@ -21,7 +21,7 @@ public class AspAndTest extends AspSyntax {
             skip(s, andToken);
         }
 
-        leaveParser("andTest");
+        leaveParser("and test");
         return aat;
     }
 

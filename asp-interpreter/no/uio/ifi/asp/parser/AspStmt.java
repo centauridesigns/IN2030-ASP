@@ -22,8 +22,9 @@ public abstract class AspStmt extends AspSyntax{
             case defToken:
                 as = AspCompoundStmt.parse(s); break;
             default:
-                as = AspSmallStmtList.parse(s); break;
         }
+
+        as = AspSmallStmtList.parse(s);
 
         leaveParser("stmt");
         return as;

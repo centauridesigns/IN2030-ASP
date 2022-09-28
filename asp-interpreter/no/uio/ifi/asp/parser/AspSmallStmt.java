@@ -24,8 +24,6 @@ public abstract class AspSmallStmt extends AspSyntax {
             case returnToken:
                 ass = AspReturnStmt.parse(s); break;
             default:
-                parserError("Expected a statement small but found a " +
-                s.curToken().kind + "!", s.curLineNum());
         }
 
         leaveParser("small stmt");

@@ -19,7 +19,7 @@ public class AspPrimary extends AspSyntax{
 
         ap.atom = AspAtom.parse(s);
 
-        while (s.curToken().kind == leftParToken || s.curToken().kind == leftBracketToken ) {
+        while (s.curToken().kind == leftParToken || s.curToken().kind == leftBracketToken) {
             ap.apss.add(AspPrimarySuffix.parse(s));
         }
 

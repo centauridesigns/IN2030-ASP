@@ -14,9 +14,9 @@ public abstract class AspPrimarySuffix extends AspSyntax {
 
         switch (s.curToken().kind) {
             case leftParToken:
-                aps = AspArguments.parse(s);
+                aps = AspArguments.parse(s); break;
             case leftBracketToken:
-                aps = AspSubscription.parse(s);
+                aps = AspSubscription.parse(s); break;
             default:
         }
 
