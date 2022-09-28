@@ -1,8 +1,6 @@
    1: 
    2: # Finn alle primtall opp til n
-Scanner: NEWLINE token on line 2
    3: # ved hjelp av teknikken kalt «Eratosthenes' sil».
-Scanner: NEWLINE token on line 3
    4: 
    5: n = 1000
 Scanner: name token on line 5: n

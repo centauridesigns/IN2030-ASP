@@ -120,10 +120,13 @@ public class Scanner {
 				// If the sentence contains a #, regard the whole as a comment. This must be rewritten to allow for post-code comments.
 				else if (line.charAt(i) == '#') {
 					// Terminate line. A token of this kind should not be created when mid-string.
-					curLineTokens.add(new Token(newLineToken,curLineNum()));
+					
+					if (curLineTokens.size() > 0) {
+						curLineTokens.add(new Token(newLineToken,curLineNum()));
 
-					for (Token t: curLineTokens) {
-						Main.log.noteToken(t);
+						for (Token t: curLineTokens) {
+							Main.log.noteToken(t);
+						}
 					}
 
 					return;

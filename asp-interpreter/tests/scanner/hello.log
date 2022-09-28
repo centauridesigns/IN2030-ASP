@@ -1,6 +1,5 @@
    1: 
    2: # En hyggelig hilsen
-Scanner: NEWLINE token on line 2
    3: navn='Dag'
 Scanner: name token on line 3: navn
 Scanner: = token on line 3
