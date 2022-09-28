@@ -1,7 +1,7 @@
 package no.uio.ifi.asp.parser;
-import java.util.ArrayList;
 import no.uio.ifi.asp.scanner.*;
 import static no.uio.ifi.asp.scanner.TokenKind.*;
+import no.uio.ifi.asp.runtime.*;
 
 public class AspFactorOpr extends AspSyntax {
     AspFactorOpr(int n) {
@@ -22,6 +22,7 @@ public class AspFactorOpr extends AspSyntax {
                 skip(s, percentToken);
             case doubleSlashToken:
                 skip(s, doubleSlashToken);
+            default:
 
         }
 

@@ -1,11 +1,11 @@
 package no.uio.ifi.asp.parser;
 import java.util.ArrayList;
 import no.uio.ifi.asp.scanner.*;
-import static no.uio.ifi.asp.scanner.TokenKind.*;
+import no.uio.ifi.asp.runtime.*;
 
 public class AspTerm extends AspSyntax {
     ArrayList<AspFactor> aspFactors = new ArrayList<>();
-    ArrayList<AspTerm> aspTerms = new ArrayList<>();
+    ArrayList<AspTermOpr> aspTerms = new ArrayList<>();
 
     AspTerm(int n) {
 	    super(n);
@@ -19,7 +19,7 @@ public class AspTerm extends AspSyntax {
         while(s.isFactorOpr() || s.isTermOpr()){
             at.aspFactors.add(AspFactor.parse(s));
             if (!s.isTermOpr()) break;
-            at.aspTerms.add(AspCompOpr.parse(s));
+            at.aspTerms.add(AspTermOpr.parse(s));
         }
 
         leaveParser("term");

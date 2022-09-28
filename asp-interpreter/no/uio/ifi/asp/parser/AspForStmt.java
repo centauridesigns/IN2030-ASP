@@ -1,6 +1,7 @@
 package no.uio.ifi.asp.parser;
 import no.uio.ifi.asp.scanner.*;
 import static no.uio.ifi.asp.scanner.TokenKind.*;
+import no.uio.ifi.asp.runtime.*;
 
 public class AspForStmt extends AspCompoundStmt {
     AspName name;
@@ -11,7 +12,7 @@ public class AspForStmt extends AspCompoundStmt {
         super(n);
     }
 
-    static AspForSmt parse(Scanner s) {
+    static AspForStmt parse(Scanner s) {
         enterParser("for stmt");
 
         AspForStmt afs = new AspForStmt(s.curLineNum());
@@ -26,5 +27,17 @@ public class AspForStmt extends AspCompoundStmt {
 
         leaveParser("for stmt");
         return afs;
+    }
+
+    @Override
+    public void prettyPrint() {
+	    //-- Must be changed in part 2:
+    }
+
+
+    @Override
+    public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
+        //-- Must be changed in part 3:
+        return null;
     }
 }

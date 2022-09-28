@@ -2,6 +2,7 @@ package no.uio.ifi.asp.parser;
 import java.util.ArrayList;
 import no.uio.ifi.asp.scanner.*;
 import static no.uio.ifi.asp.scanner.TokenKind.*;
+import no.uio.ifi.asp.runtime.*;
 
 public class AspPrimary extends AspSyntax{
     AspAtom atom;
@@ -16,7 +17,7 @@ public class AspPrimary extends AspSyntax{
 
         AspPrimary ap = new AspPrimary(s.curLineNum());
 
-        ap.atom = AspAtom.parse(s)
+        ap.atom = AspAtom.parse(s);
 
         while (s.curToken().kind == leftParToken || s.curToken().kind == leftBracketToken ) {
             ap.apss.add(AspPrimarySuffix.parse(s));

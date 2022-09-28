@@ -2,6 +2,7 @@ package no.uio.ifi.asp.parser;
 import no.uio.ifi.asp.scanner.*;
 import static no.uio.ifi.asp.scanner.TokenKind.*;
 import java.util.ArrayList;
+import no.uio.ifi.asp.runtime.*;
 
 public class AspSmallStmtList extends AspStmt {
     ArrayList<AspSmallStmt> smallStmts = new ArrayList<>();
