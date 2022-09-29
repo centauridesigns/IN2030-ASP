@@ -24,7 +24,7 @@ public class AspFloatLiteral extends AspAtom {
     @Override
     public void prettyPrint() {
         String doubleStreng = String.valueOf(floaten);
-	    prettyWrite(" " + doubleStreng + " ");
+	    prettyWrite(doubleStreng + " ");
     }
 
 
