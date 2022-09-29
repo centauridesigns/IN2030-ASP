@@ -29,7 +29,11 @@ public class AspPrimary extends AspSyntax{
 
     @Override
     public void prettyPrint() {
-	    //-- Must be changed in part 2:
+	    atom.prettyPrint();
+
+        for (AspPrimarySuffix ass: apss){
+            ass.prettyPrint();
+        }
     }
 
 

@@ -28,7 +28,8 @@ public class AspNotTest extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-	    //-- Must be changed in part 2:
+	    if (isNot) prettyWrite("not ");
+        comparison.prettyPrint();
     }
 
 

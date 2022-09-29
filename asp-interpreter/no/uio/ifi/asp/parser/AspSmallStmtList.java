@@ -6,6 +6,7 @@ import no.uio.ifi.asp.runtime.*;
 
 public class AspSmallStmtList extends AspStmt {
     ArrayList<AspSmallStmt> smallStmts = new ArrayList<>();
+    Boolean semiColon;
 
     AspSmallStmtList(int n) {
 	    super(n);
@@ -22,7 +23,11 @@ public class AspSmallStmtList extends AspStmt {
             skip(s, semicolonToken);
         }
 
-        if(s.curToken().kind == semicolonToken) skip(s, semicolonToken); 
+        if(s.curToken().kind == semicolonToken){
+            assl.semiColon = true;
+            skip(s, semicolonToken); 
+        }
+
         skip(s, newLineToken);
         
         leaveParser("small stmt list");
@@ -31,7 +36,15 @@ public class AspSmallStmtList extends AspStmt {
 
     @Override
     public void prettyPrint() {
-	    //-- Must be changed in part 2:
+	    int nPrinted = 0;
+
+        for (AspSmallStmt ass: smallStmts){
+            if (nPrinted > 0) prettyWrite("; ");
+            ass.prettyPrint(); ++nPrinted;
+        }
+        if (semiColon != null) prettyWrite("; ");
+        prettyWrite("NEWLINE ");
+
     }
 
 

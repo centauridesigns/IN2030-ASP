@@ -20,7 +20,7 @@ public class AspPassStmt extends AspSmallStmt {
 
     @Override
     public void prettyPrint() {
-	    //-- Must be changed in part 2:
+	    prettyWrite("pass ");
     }
 
 

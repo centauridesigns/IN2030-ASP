@@ -23,7 +23,8 @@ public class AspIntegerLiteral extends AspAtom {
 
     @Override
     public void prettyPrint() {
-	    //-- Must be changed in part 2:
+	    String numberStreng = String.valueOf(number);
+	    prettyWrite(" " + numberStreng + " ");
     }
 
 

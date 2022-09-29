@@ -4,6 +4,7 @@ import no.uio.ifi.asp.runtime.*;
 
 // ABSTRACT
 public abstract class AspPrimarySuffix extends AspSyntax {
+
     public AspPrimarySuffix(int n){
         super(n);
     }
@@ -26,9 +27,7 @@ public abstract class AspPrimarySuffix extends AspSyntax {
     }
 
     @Override
-    public void prettyPrint() {
-	    //-- Must be changed in part 2:
-    }
+    public void prettyPrint() {}
 
 
     @Override

@@ -8,6 +8,7 @@ public class AspIfStmt extends AspCompoundStmt {
     ArrayList<AspExpr> exprs = new ArrayList<>();
     ArrayList<AspSuite> ifSuites = new ArrayList<>();
     AspSuite suite;
+    int elifs = 0;
 
     AspIfStmt(int n) {
 	    super(n);
@@ -25,6 +26,7 @@ public class AspIfStmt extends AspCompoundStmt {
             skip(s, colonToken);
             ais.ifSuites.add(AspSuite.parse(s));
             if(s.curToken().kind != elifToken) break;
+            ais.elifs++;
             skip(s, elifToken);
         }
 
@@ -40,7 +42,24 @@ public class AspIfStmt extends AspCompoundStmt {
 
     @Override
     public void prettyPrint() {
-	    //-- Must be changed in part 2:
+        int nPrinted = 0;
+	    prettyWrite("if ");
+
+        for (AspExpr ae: exprs){
+            ae.prettyPrint();
+            prettyWrite(":");
+            ifSuites.get(nPrinted).prettyPrint();
+            if (nPrinted < elifs){
+                prettyWrite("elif ");
+            }
+            nPrinted++;
+        }
+
+        if (suite != null){
+            prettyWrite("else ");
+            prettyWrite(":");
+            suite.prettyPrint();
+        }
     }
 
 
