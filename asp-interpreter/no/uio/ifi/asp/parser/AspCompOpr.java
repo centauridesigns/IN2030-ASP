@@ -1,9 +1,10 @@
 package no.uio.ifi.asp.parser;
 import no.uio.ifi.asp.scanner.*;
-import static no.uio.ifi.asp.scanner.TokenKind.*;
 import no.uio.ifi.asp.runtime.*;
 
 public class AspCompOpr extends AspSyntax{
+    TokenKind kind;
+    
     AspCompOpr(int n){
         super(n);
     }
@@ -12,29 +13,16 @@ public class AspCompOpr extends AspSyntax{
         enterParser("comp opr");
         AspCompOpr aco = new AspCompOpr(s.curLineNum());
 
-        switch(s.curToken().kind) {
-            case lessToken:
-                skip(s, lessToken); break;
-            case lessEqualToken:
-                skip(s, lessEqualToken); break;
-            case greaterToken:
-                skip(s, greaterToken); break;
-            case greaterEqualToken:
-                skip(s, greaterEqualToken); break;
-            case doubleEqualToken:
-                skip(s, doubleEqualToken); break;
-            case notEqualToken:
-                skip(s, notEqualToken); break;
-            default:
+        aco.kind = s.curToken().kind;
+        skip(s, s.curToken().kind);
 
-        }
         leaveParser("comp opr");
         return aco;
     }
 
     @Override
     public void prettyPrint() {
-	    //-- Must be changed in part 2:
+	    prettyWrite(" " + kind.toString() + " ");
     }
 
 

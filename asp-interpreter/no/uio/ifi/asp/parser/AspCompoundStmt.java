@@ -4,6 +4,7 @@ import no.uio.ifi.asp.runtime.*;
 
 // ABSTRACT
 public abstract class AspCompoundStmt extends AspStmt{
+    TokenKind kind;
     public AspCompoundStmt(int n){
         super(n);
     }
@@ -12,7 +13,7 @@ public abstract class AspCompoundStmt extends AspStmt{
         enterParser("compound stmt");
         
         AspCompoundStmt acs = null;
-
+        
         switch (s.curToken().kind){
             case forToken:
                 acs = AspForStmt.parse(s); break;
@@ -30,9 +31,7 @@ public abstract class AspCompoundStmt extends AspStmt{
     }
 
     @Override
-    public void prettyPrint() {
-	    //-- Must be changed in part 2:
-    }
+    public void prettyPrint() {}
 
 
     @Override

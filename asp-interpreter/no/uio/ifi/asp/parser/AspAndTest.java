@@ -4,6 +4,7 @@ import no.uio.ifi.asp.scanner.*;
 import static no.uio.ifi.asp.scanner.TokenKind.*;
 import no.uio.ifi.asp.runtime.*;
 
+//hentet inspirasjon for denne klassen fra forelesning i faget for uke 37
 public class AspAndTest extends AspSyntax {
     ArrayList<AspNotTest> notTests = new ArrayList<>();
     
@@ -27,7 +28,12 @@ public class AspAndTest extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-	    //-- Must be changed in part 2:
+	    int nPrinted = 0;
+
+        for (AspNotTest ant: notTests){
+            if (nPrinted > 0) prettyWrite(" and ");
+            ant.prettyPrint(); ++nPrinted;
+        }
     }
 
 

@@ -3,7 +3,7 @@ import no.uio.ifi.asp.scanner.*;
 import no.uio.ifi.asp.runtime.*;
 
 public class AspFactorPrefix extends AspSyntax {
-    Token token;
+    TokenKind kind;
 
     AspFactorPrefix(int n) {
         super(n);
@@ -13,7 +13,7 @@ public class AspFactorPrefix extends AspSyntax {
         enterParser("factor prefix");
         AspFactorPrefix afp = new AspFactorPrefix(s.curLineNum());
 
-        afp.token = s.curToken();
+        afp.kind = s.curToken().kind;
         skip(s, s.curToken().kind);
 
         leaveParser("factor prefix");
@@ -22,7 +22,7 @@ public class AspFactorPrefix extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-	    //-- Must be changed in part 2:
+	    prettyWrite(" " + kind.toString() + " ");
     }
 
 

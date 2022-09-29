@@ -31,7 +31,12 @@ public class AspExpr extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-	    //-- Must be changed in part 2:
+	    int nPrinted = 0;
+
+        for (AspAndTest aat: andTests){
+            if (nPrinted > 0) prettyWrite(" or ");
+            aat.prettyPrint(); ++nPrinted;
+        }
     }
 
 

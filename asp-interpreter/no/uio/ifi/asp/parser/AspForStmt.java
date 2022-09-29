@@ -31,7 +31,12 @@ public class AspForStmt extends AspCompoundStmt {
 
     @Override
     public void prettyPrint() {
-	    //-- Must be changed in part 2:
+	    prettyWrite("for ");
+        name.prettyPrint();
+        prettyWrite("in ");
+        expression.prettyPrint();
+        prettyWrite(":");
+        suite.prettyPrint();
     }
 
 

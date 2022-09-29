@@ -32,7 +32,14 @@ public class AspAssignment extends AspSmallStmt {
 
     @Override
     public void prettyPrint() {
-	    //-- Must be changed in part 2:
+	    name.prettyPrint();
+
+        for (AspSubscription as: subs){
+            as.prettyPrint();
+        }
+        prettyWrite(" = ");
+
+        expr.prettyPrint();
     }
 
 

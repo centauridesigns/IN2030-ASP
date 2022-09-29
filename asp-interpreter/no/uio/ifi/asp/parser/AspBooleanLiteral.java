@@ -4,7 +4,7 @@ import static no.uio.ifi.asp.scanner.TokenKind.*;
 import no.uio.ifi.asp.runtime.*;
 
 public class AspBooleanLiteral extends AspAtom {
-    Boolean bool;
+    TokenKind kind;
     AspBooleanLiteral(int n) {
         super(n);
     }
@@ -14,10 +14,10 @@ public class AspBooleanLiteral extends AspAtom {
         AspBooleanLiteral abl = new AspBooleanLiteral(s.curLineNum());
 
         if (s.curToken().kind == trueToken){
-            abl.bool = true; 
+            abl.kind = trueToken; 
             skip(s, trueToken);
         }else{
-            abl.bool = false; 
+            abl.kind = falseToken; 
             skip(s, falseToken);
         } 
 
@@ -27,7 +27,8 @@ public class AspBooleanLiteral extends AspAtom {
 
     @Override
     public void prettyPrint() {
-	    //-- Must be changed in part 2:
+	    if(kind == trueToken) prettyWrite(" True ");
+        else prettyWrite(" False ");
     }
 
 

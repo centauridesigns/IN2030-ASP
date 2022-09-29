@@ -4,7 +4,7 @@ import no.uio.ifi.asp.scanner.*;
 import no.uio.ifi.asp.runtime.*;
 
 public class AspComparison extends AspSyntax {
-    AspTerm term;
+    ArrayList<AspTerm> terms = new ArrayList<>();
     ArrayList<AspCompOpr> compOprs = new ArrayList<>();
 
     AspComparison(int n){
@@ -16,7 +16,7 @@ public class AspComparison extends AspSyntax {
         AspComparison ac = new AspComparison(s.curLineNum());
         
         while (true){
-            ac.term = AspTerm.parse(s);
+            ac.terms.add(AspTerm.parse(s));
             if (!s.isCompOpr()) break;
             ac.compOprs.add(AspCompOpr.parse(s));
         }
@@ -27,7 +27,15 @@ public class AspComparison extends AspSyntax {
 
     @Override
     void prettyPrint() {
-        //-- Must be changed in part 2:
+        int nPrinted = 0;
+
+        for (AspTerm at: terms){
+            at.prettyPrint();
+            if (nPrinted < compOprs.size()){
+                compOprs.get(nPrinted).prettyPrint();
+            }
+            nPrinted++;
+        }
     }
 
     @Override

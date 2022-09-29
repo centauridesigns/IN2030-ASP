@@ -32,7 +32,20 @@ public class AspDictDisplay extends AspAtom {
 
     @Override
     public void prettyPrint() {
-	    //-- Must be changed in part 2:
+	    int nPrinted = 0;
+
+        prettyWrite("{");
+
+        for (AspStringLiteral asl: strings){
+            if (nPrinted > 0) prettyWrite(", ");
+            asl.prettyPrint();
+            prettyWrite(":");
+            exprs.get(nPrinted).prettyPrint();    
+            nPrinted++;        
+
+        }
+
+        prettyWrite("}");
     }
 
 

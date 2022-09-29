@@ -21,7 +21,7 @@ public class AspExprStmt extends AspSmallStmt {
 
     @Override
     public void prettyPrint() {
-	    //-- Must be changed in part 2:
+	    statement.prettyPrint();
     }
 
 
