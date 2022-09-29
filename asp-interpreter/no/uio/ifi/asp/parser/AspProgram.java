@@ -34,7 +34,6 @@ public class AspProgram extends AspSyntax {
 	    for (AspStmt as : stmts){
             as.prettyPrint();
         }
-        prettyWrite("E-o-F ");
     }
 
 

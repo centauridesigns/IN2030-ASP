@@ -99,4 +99,5 @@
   </stmt>
 </program>
 
- navn  = NEWLINE NEWLINE E-o-F 
+navn = "Dag"
+print("Hei,", navn)

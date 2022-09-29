@@ -1,5 +1,6 @@
 package no.uio.ifi.asp.parser;
 import no.uio.ifi.asp.scanner.*;
+import no.uio.ifi.asp.runtime.*;
 
 // ABSTRACT
 public abstract class AspAtom extends AspSyntax{
@@ -39,4 +40,7 @@ public abstract class AspAtom extends AspSyntax{
         leaveParser("atom");
         return aa;
     }
+
+    abstract void prettyPrint();
+    abstract RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue;
 }

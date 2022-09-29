@@ -1,6 +1,7 @@
 package no.uio.ifi.asp.parser;
 import no.uio.ifi.asp.scanner.*;
 import static no.uio.ifi.asp.scanner.TokenKind.*;
+import no.uio.ifi.asp.runtime.*;
 
 public class AspWhileStmt extends AspCompoundStmt {
     AspExpr test;
@@ -22,6 +23,21 @@ public class AspWhileStmt extends AspCompoundStmt {
 
         leaveParser("while stmt");
         return aws;
+    }
+
+    @Override
+    public void prettyPrint() {
+	    prettyWrite("while ");
+        test.prettyPrint();
+        prettyWrite(":");
+        body.prettyPrint();
+    }
+
+
+    @Override
+    public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
+        //-- Must be changed in part 3:
+        return null;
     }
 }
 

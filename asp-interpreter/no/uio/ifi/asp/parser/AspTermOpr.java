@@ -3,6 +3,8 @@ import no.uio.ifi.asp.scanner.*;
 import no.uio.ifi.asp.runtime.*;
 
 public class AspTermOpr extends AspSyntax {
+    TokenKind kind;
+
     AspTermOpr(int n) {
         super(n);
     }
@@ -12,6 +14,7 @@ public class AspTermOpr extends AspSyntax {
 
         AspTermOpr ato = new AspTermOpr(s.curLineNum());
 
+        ato.kind = s.curToken().kind;
         skip(s, s.curToken().kind);
 
         leaveParser("term opr");
@@ -20,7 +23,7 @@ public class AspTermOpr extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-	    //-- Must be changed in part 2:
+	    prettyWrite(" " + kind.toString() + " ");
     }
 
 

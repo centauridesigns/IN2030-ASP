@@ -23,7 +23,7 @@ public class AspName extends AspAtom {
 
     @Override
     public void prettyPrint() {
-	    prettyWrite(" " + name + " ");
+	    prettyWrite(name);
     }
 
 

@@ -24,7 +24,9 @@ public class AspStringLiteral extends AspAtom {
 
     @Override
     public void prettyPrint() {
-	    //-- Must be changed in part 2:
+        prettyWrite("\"");
+	    prettyWrite(characters);
+        prettyWrite("\"");
     }
 
 

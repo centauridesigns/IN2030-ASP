@@ -43,7 +43,7 @@ public class AspSmallStmtList extends AspStmt {
             ass.prettyPrint(); ++nPrinted;
         }
         if (semiColon != null) prettyWrite("; ");
-        prettyWrite("NEWLINE ");
+        prettyWriteLn();
 
     }
 

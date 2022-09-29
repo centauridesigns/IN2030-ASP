@@ -23,7 +23,9 @@ public class AspSubscription extends AspPrimarySuffix {
 
     @Override
     public void prettyPrint() {
-	    //-- Must be changed in part 2:
+	    prettyWrite("[");
+        expression.prettyPrint();
+        prettyWrite("]");
     }
 
 

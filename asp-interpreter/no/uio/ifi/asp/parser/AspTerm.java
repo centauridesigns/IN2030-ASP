@@ -28,7 +28,15 @@ public class AspTerm extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-	    //-- Must be changed in part 2:
+	    int nPrinted = 0;
+
+        for (AspFactor af: aspFactors){
+            af.prettyPrint();
+            if (nPrinted < aspTerms.size()){
+                aspTerms.get(nPrinted).prettyPrint();
+            }
+            nPrinted++;
+        }
     }
 
 
