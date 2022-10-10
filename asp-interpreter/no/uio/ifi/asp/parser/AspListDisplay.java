@@ -32,12 +32,13 @@ public class AspListDisplay extends AspAtom {
     public void prettyPrint() {
         int nPrinted = 0;
 	    prettyWrite("[");
-        prettyWrite("]");
 
         for (AspExpr ae: exprs){
             if (nPrinted > 0) prettyWrite(", ");
             ae.prettyPrint(); ++nPrinted;
         }
+
+        prettyWrite("]");
     }
 
 

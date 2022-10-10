@@ -47,7 +47,7 @@ public class AspIfStmt extends AspCompoundStmt {
 
         for (AspExpr ae: exprs){
             ae.prettyPrint();
-            prettyWrite(":");
+            prettyWrite(": ");
             ifSuites.get(nPrinted).prettyPrint();
             if (nPrinted < elifs){
                 prettyWrite("elif ");
@@ -57,7 +57,7 @@ public class AspIfStmt extends AspCompoundStmt {
 
         if (suite != null){
             prettyWrite("else ");
-            prettyWrite(":");
+            prettyWrite(": ");
             suite.prettyPrint();
         }
     }

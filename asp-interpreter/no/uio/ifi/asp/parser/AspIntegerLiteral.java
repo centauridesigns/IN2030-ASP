@@ -24,7 +24,7 @@ public class AspIntegerLiteral extends AspAtom {
     @Override
     public void prettyPrint() {
 	    String numberStreng = String.valueOf(number);
-	    prettyWrite(numberStreng + " ");
+	    prettyWrite(numberStreng);
     }
 
 

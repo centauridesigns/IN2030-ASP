@@ -22,7 +22,7 @@ public class AspFactorPrefix extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-	    prettyWrite(" " + kind.toString() + " ");
+	    prettyWrite(kind.toString());
     }
 
 

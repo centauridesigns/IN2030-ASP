@@ -33,6 +33,7 @@ public class AspForStmt extends AspCompoundStmt {
     public void prettyPrint() {
 	    prettyWrite("for ");
         name.prettyPrint();
+        prettyWrite(" ");
         prettyWrite("in ");
         expression.prettyPrint();
         prettyWrite(":");
