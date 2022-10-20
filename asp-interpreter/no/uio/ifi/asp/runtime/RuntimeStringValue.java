@@ -1,9 +1,10 @@
 package no.uio.ifi.asp.runtime;
+import no.uio.ifi.asp.parser.*;
 
 public class RuntimeStringValue extends RuntimeValue {
     String stringLiteral;
 
-    public RuntimeBoolValue(String s) {
+    public RuntimeStringValue(String s) {
         stringLiteral = s;
     }
 
@@ -14,7 +15,7 @@ public class RuntimeStringValue extends RuntimeValue {
 
     @Override
     public String showInfo() {
-        if (stringLiteral.indexOf('\'' >= 0)) {
+        if (stringLiteral.indexOf('\'') >= 0) {
             return '"' + stringLiteral + '"';
         }
 
@@ -34,28 +35,28 @@ public class RuntimeStringValue extends RuntimeValue {
     }
 
     @Override
-    public getIntValue(String what, AspSyntax where) {
-        return Integer.parseInt(stringLiteral);
+    public long getIntValue(String what, AspSyntax where) {
+        return (long) Integer.parseInt(stringLiteral);
     }
 
     @Override
-    public getFloatValue(String what, AspSyntax where) {
-        return Float.parseFloat(stringLiteral);
+    public double getFloatValue(String what, AspSyntax where) {
+        return Double.parseDouble(stringLiteral);
     }
 
     @Override
-    public boolean evalLen(AspSyntax where) {
-        return RuntimeIntegerValue(stringLiteral.length());
+    public RuntimeValue evalLen(AspSyntax where) {
+        return new RuntimeIntegerValue(stringLiteral.length());
     }
 
     @Override
     public RuntimeValue evalEqual(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeStringValue) {
             if (stringLiteral == v.toString()) {
-                return RunTimeBoolValue(true);
+                return new RuntimeBoolValue(true);
             }
 
-            return RunTimeBoolValue(false);
+            return new RuntimeBoolValue(false);
         }
         
         runtimeError("Type error for ==.", where);
@@ -64,17 +65,17 @@ public class RuntimeStringValue extends RuntimeValue {
 
     @Override
     public RuntimeValue evalNot(AspSyntax where) {
-        return new RuntimeBoolValue(string == "");
+        return new RuntimeBoolValue(stringLiteral == "");
     }
 
     @Override
     public RuntimeValue evalNotEqual(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeStringValue) {
             if (stringLiteral == v.toString()) {
-                return RunTimeBoolValue(false);
+                return new RuntimeBoolValue(false);
             }
 
-            return RunTimeBoolValue(true)
+            return new RuntimeBoolValue(true);
         }
 
         runtimeError("Type error for !=.", where);
@@ -172,10 +173,10 @@ public class RuntimeStringValue extends RuntimeValue {
                 return new RuntimeStringValue(character);
             }
 
-            runtimeError("Out of bounds.");
+            runtimeError("Out of bounds.", where);
         }
 
-        runtimeError("Type error for [].");
+        runtimeError("Type error for [].", where);
         return null;
     }
 }
