@@ -98,7 +98,7 @@ public class RuntimeStringValue extends RuntimeValue {
         if (v instanceof RuntimeIntegerValue) {
             String newString = stringLiteral;
 
-            for (int i = v.integerValue; i > 0; i--) {
+            for (long i = v.getIntValue("*", where); i > 0; i--) {
                 newString = newString + stringLiteral;
             }
 
@@ -168,8 +168,9 @@ public class RuntimeStringValue extends RuntimeValue {
     @Override
     public RuntimeValue evalSubscription(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeIntegerValue)  {
-            if (v.integerValue < stringLiteral.length() - 1) {
-                String character = stringLiteral.charAt(v.integerValue);
+            if (v.getIntValue("[]", where) < stringLiteral.length() - 1) {
+                int i = (int) v.getIntValue("[]", where);
+                String character = Character.toString(stringLiteral.charAt(i));
                 return new RuntimeStringValue(character);
             }
 
