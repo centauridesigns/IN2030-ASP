@@ -1,5 +1,5 @@
 package no.uio.ifi.asp.runtime;
-
+import no.uio.ifi.asp.parser.*;
 import java.util.ArrayList;
 
 public class RuntimeListValue extends RuntimeValue {
@@ -16,6 +16,7 @@ public class RuntimeListValue extends RuntimeValue {
 
     @Override
     public String showInfo() {
+        return toString();
     }
 
     @Override
@@ -35,8 +36,12 @@ public class RuntimeListValue extends RuntimeValue {
         return listString;
     }
 
-    public RuntimeValue getElement(int index) {
+    public RuntimeValue getElem(int index) {
         return listObject.get(index);
+    }
+
+    public ArrayList<RuntimeValue> getDict(AspSyntax where) {
+        return this.listObject;
     }
     
     @Override
@@ -53,7 +58,7 @@ public class RuntimeListValue extends RuntimeValue {
     @Override
     public RuntimeValue evalEqual(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeListValue) {
-            if (this.listObject.equals(v.listObject)) {
+            if (this.listObject.equals(((RuntimeListValue) v).getDict(where))) {
                 return new RuntimeBoolValue(true);
             }
 
@@ -66,14 +71,14 @@ public class RuntimeListValue extends RuntimeValue {
 
     @Override
     public RuntimeValue evalNot(AspSyntax where) {
-        return new RuntimeIntegerValue(listObject.size() == 0);
+        return new RuntimeBoolValue(!getBoolValue("!", where));
     }
 
     // Not needed.
     @Override
     public RuntimeValue evalNotEqual(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeListValue) {
-            if (this.listObject.equals(v.listObject)) {
+            if (this.listObject.equals(((RuntimeListValue) v).getDict(where))) {
                 return new RuntimeBoolValue(false);
             }
 
@@ -89,7 +94,7 @@ public class RuntimeListValue extends RuntimeValue {
         if (v instanceof RuntimeIntegerValue) {
             ArrayList<RuntimeValue> newList = listObject;
 
-            for (int i = v.getIntValue("* operand", where); i > 0; i--) {
+            for (int i = (int) v.getIntValue("* operand", where); i > 0; i--) {
                 for (int j = 0; j < listObject.size(); j++) {
                     listObject.add(listObject.get(j));
                 }
@@ -103,8 +108,8 @@ public class RuntimeListValue extends RuntimeValue {
     }
 
     @Override
-    public void evalAssignElem(RuntimeValue i, RuntimeValue v, AspSyntax where) {
-        Integer index = i.getIntValue("element assignment", where);
+    public void evalAssignElem(RuntimeValue inx, RuntimeValue v, AspSyntax where) {
+        Integer index = (int) inx.getIntValue("element assignment", where);
 
         if (index < listObject.size()) {
             listObject.remove(index);
@@ -118,7 +123,7 @@ public class RuntimeListValue extends RuntimeValue {
 
     @Override
     public RuntimeValue evalSubscription(RuntimeValue v, AspSyntax where) {
-        Integer index = v.getIntValue("element assignment", where);
+        Integer index = (int) v.getIntValue("element assignment", where);
 
         if (v instanceof RuntimeIntegerValue) {
             if (index < listObject.size() - 1) {

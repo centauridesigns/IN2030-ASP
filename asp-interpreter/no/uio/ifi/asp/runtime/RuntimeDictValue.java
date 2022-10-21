@@ -1,5 +1,4 @@
 package no.uio.ifi.asp.runtime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import no.uio.ifi.asp.parser.*;
 
@@ -41,6 +40,10 @@ public class RuntimeDictValue extends RuntimeValue {
         return newString;
     }
 
+    public RuntimeValue getElem(RuntimeValue key) {
+        return dictObject.get(key);
+    }
+
     @Override
     public boolean getBoolValue(String what, AspSyntax where) {
         return !dictObject.isEmpty();
@@ -57,34 +60,34 @@ public class RuntimeDictValue extends RuntimeValue {
     }
 
     @Override
-    public void evalAssignElem(RuntimeValue k, RuntimeValue v, AspSyntax where) {
-        if (k instanceof RuntimeStringValue) {
-            if (dictObject.containsKey(k)) {
-                dictObject.put((RuntimeStringValue) k, v);
+    public void evalAssignElem(RuntimeValue key, RuntimeValue val, AspSyntax where) {
+        if (key instanceof RuntimeStringValue) {
+            if (dictObject.containsKey(key)) {
+                dictObject.put((RuntimeStringValue) key, val);
             }
 
             else {
-                runtimeError("Key " + k.toString() + " not found", where);
+                runtimeError("Key " + key.toString() + " not found", where);
             }
         }
 
         else {
-            runtimeError("Key " + k.toString() + " is not a string.", where);
+            runtimeError("Key " + key.toString() + " is not a string.", where);
         }
     }
 
     @Override
-    public RuntimeValue evalSubscription(RuntimeValue k, AspSyntax where) {
-        if (k instanceof RuntimeStringValue) {
-            if (dictObject.get(k) != null) {
-                return dictObject.get(k);
+    public RuntimeValue evalSubscription(RuntimeValue key, AspSyntax where) {
+        if (key instanceof RuntimeStringValue) {
+            if (dictObject.get(key) != null) {
+                return dictObject.get(key);
             }
 
-            runtimeError("Key " + k.toString() + " not found", where);
+            runtimeError("Key " + key.toString() + " not found", where);
             return null;
         }
 
-        runtimeError("Key " + k.toString() + " is not a string.", where);
+        runtimeError("Key " + key.toString() + " is not a string.", where);
         return null;
     }
 }
