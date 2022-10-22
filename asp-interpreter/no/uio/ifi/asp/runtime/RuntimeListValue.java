@@ -36,6 +36,10 @@ public class RuntimeListValue extends RuntimeValue {
         return listString;
     }
 
+    public void addElem(RuntimeValue element) {
+        listObject.add(element);
+    }
+
     public RuntimeValue getElem(int index) {
         return listObject.get(index);
     }

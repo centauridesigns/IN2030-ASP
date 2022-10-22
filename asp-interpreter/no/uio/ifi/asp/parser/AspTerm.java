@@ -1,5 +1,6 @@
 package no.uio.ifi.asp.parser;
 import java.util.ArrayList;
+import no.uio.ifi.asp.main.*;
 import no.uio.ifi.asp.scanner.*;
 import no.uio.ifi.asp.runtime.*;
 
@@ -42,7 +43,24 @@ public class AspTerm extends AspSyntax {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        //-- Must be changed in part 3:
-        return null;
+        RuntimeValue value = aspFactors.get(0).eval(curScope);
+        RuntimeValue operator;
+        TokenKind kind;
+
+        for (int i = 1; i < aspFactors.size(); i++) {
+            kind = aspTerms.get(i - 1).kind;
+            operator = aspTerms.get(i).eval(curScope);
+
+            switch(kind) {
+                case plusToken:
+                    value = value.evalAdd(operator, this);
+                case minusToken:
+                    value = value.evalAdd(operator, this);
+                default:
+                    Main.panic("Illegal term operator: " + kind + "!");
+            }
+        }
+        
+        return value;
     }
 }

@@ -1,6 +1,7 @@
 package no.uio.ifi.asp.parser;
 import java.util.ArrayList;
 import no.uio.ifi.asp.scanner.*;
+import no.uio.ifi.asp.main.*;
 import no.uio.ifi.asp.runtime.*;
 
 public class AspComparison extends AspSyntax {
@@ -40,8 +41,34 @@ public class AspComparison extends AspSyntax {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        //-- Must be changed in part 3:
-        return null;
+        RuntimeValue value = terms.get(0).eval(curScope);
+        RuntimeValue operator;
+        TokenKind kind;
+
+        for (int i = 1; i < terms.size(); i++) {
+            value = terms.get(i - 1).eval(curScope);
+            operator = terms.get(i).eval(curScope);
+            kind = compOprs.get(i - 1).kind;
+            
+            switch (kind) {
+                case lessToken:
+                    value = value.evalLess(operator, this);
+                case lessEqualToken:
+                    value = value.evalLessEqual(operator, this);
+                case greaterToken:
+                    value = value.evalGreater(operator, this);
+                case greaterEqualToken:
+                    value = value.evalGreaterEqual(operator, this);
+                case doubleEqualToken:
+                    value = value.evalEqual(operator, this);
+                case notEqualToken:
+                    value = value.evalNotEqual(operator, this);
+                default:
+                    Main.panic("Illegal comparison operator: " + kind + "!");
+            }
+        }
+
+        return value;
     }
 
 }
