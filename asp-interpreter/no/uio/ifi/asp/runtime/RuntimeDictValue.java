@@ -62,13 +62,7 @@ public class RuntimeDictValue extends RuntimeValue {
     @Override
     public void evalAssignElem(RuntimeValue key, RuntimeValue val, AspSyntax where) {
         if (key instanceof RuntimeStringValue) {
-            if (dictObject.containsKey(key)) {
-                dictObject.put((RuntimeStringValue) key, val);
-            }
-
-            else {
-                runtimeError("Key " + key.toString() + " not found", where);
-            }
+            dictObject.put((RuntimeStringValue) key, val);
         }
 
         else {

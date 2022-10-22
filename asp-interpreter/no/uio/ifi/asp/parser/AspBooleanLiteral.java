@@ -5,6 +5,7 @@ import no.uio.ifi.asp.runtime.*;
 
 public class AspBooleanLiteral extends AspAtom {
     TokenKind kind;
+
     AspBooleanLiteral(int n) {
         super(n);
     }
@@ -34,7 +35,6 @@ public class AspBooleanLiteral extends AspAtom {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        //-- Must be changed in part 3:
         return null;
     }
 }
