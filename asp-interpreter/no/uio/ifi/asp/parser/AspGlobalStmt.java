@@ -14,6 +14,7 @@ public class AspGlobalStmt extends AspSmallStmt {
     static AspGlobalStmt parse(Scanner s) {
         enterParser("global stmt");
         AspGlobalStmt ags = new AspGlobalStmt(s.curLineNum());
+        skip(s, globalToken);
 
         while (true) {
             ags.variables.add(AspName.parse(s));
