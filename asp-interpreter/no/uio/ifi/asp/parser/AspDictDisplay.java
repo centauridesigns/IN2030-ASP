@@ -2,6 +2,8 @@ package no.uio.ifi.asp.parser;
 import no.uio.ifi.asp.scanner.*;
 import static no.uio.ifi.asp.scanner.TokenKind.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import no.uio.ifi.asp.runtime.*;
 
 public class AspDictDisplay extends AspAtom {
@@ -51,7 +53,20 @@ public class AspDictDisplay extends AspAtom {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        //-- Must be changed in part 3:
-        return null;
+        RuntimeDictValue dictionary = new RuntimeDictValue(new HashMap<RuntimeStringValue, RuntimeValue>());
+
+        RuntimeValue key;
+        RuntimeValue val;
+        int i = 0;
+
+        for (AspStringLiteral string : strings) {
+            key = string.eval(curScope);
+            val = exprs.get(i).eval(curScope);
+            dictionary.evalAssignElem(key, val, this);
+
+            i++;
+        }
+
+        return dictionary;
     }
 }

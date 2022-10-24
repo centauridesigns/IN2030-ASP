@@ -39,6 +39,7 @@ public class AspAndTest extends AspSyntax {
     // Fra forelesning 12.10.22.
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
+
         RuntimeValue v = notTests.get(0).eval(curScope);
 
         for (int i = 1; i < notTests.size(); ++i) {
