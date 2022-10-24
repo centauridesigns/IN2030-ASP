@@ -35,6 +35,7 @@ public class AspBooleanLiteral extends AspAtom {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        return null;
+        if (kind == trueToken) return new RuntimeBoolValue(true);
+        else return new RuntimeBoolValue(false);
     }
 }

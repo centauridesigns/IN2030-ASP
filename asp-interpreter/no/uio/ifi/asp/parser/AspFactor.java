@@ -1,6 +1,8 @@
 package no.uio.ifi.asp.parser;
 import no.uio.ifi.asp.scanner.*;
 import java.util.ArrayList;
+
+import no.uio.ifi.asp.main.Main;
 import no.uio.ifi.asp.runtime.*;
 
 public class AspFactor extends AspSyntax {
@@ -50,7 +52,51 @@ public class AspFactor extends AspSyntax {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        //-- Must be changed in part 3:
-        return null;
+        RuntimeValue runtimePrimary = primaries.get(0).eval(curScope);
+
+        if (!factorPrefixes.isEmpty()){
+            if (factorPrefixes.get(0) != null){
+                TokenKind kind = factorPrefixes.get(0).kind;
+
+                switch (kind){
+                    case plusToken:
+                        runtimePrimary = runtimePrimary.evalPositive(this); break;
+                    case minusToken:
+                        runtimePrimary = runtimePrimary.evalNegate(this); break;
+                    default:
+                        Main.panic("Illegal factor prefix" + kind);
+                }
+            }
+        }
+
+        for (int i = 1; i < primaries.size(); i++){
+            TokenKind kindOfOpr = factorOprs.get(i-1).kind;
+            RuntimeValue runtimeNextPrimary = primaries.get(i).eval(curScope);
+            
+            if (factorPrefixes.get(i) != null){
+                TokenKind prefix = factorPrefixes.get(i).kind;
+                switch (prefix){
+                    case plusToken:
+                        runtimeNextPrimary = runtimeNextPrimary.evalPositive(this); break;
+                    case minusToken:
+                        runtimeNextPrimary = runtimeNextPrimary.evalNegate(this); break;
+                    default:
+                        Main.panic("Illegal factor prefix" + prefix);
+                }
+            }
+            switch (kindOfOpr){
+                case astToken:
+                    runtimePrimary = runtimePrimary.evalMultiply(runtimeNextPrimary, this); break;
+                case slashToken:
+                    runtimePrimary = runtimePrimary.evalDivide(runtimeNextPrimary, this); break;
+                case percentToken:
+                    runtimePrimary = runtimePrimary.evalModulo(runtimeNextPrimary, this); break;
+                case doubleSlashToken:
+                    runtimePrimary = runtimePrimary.evalIntDivide(runtimeNextPrimary, this); break;
+                default:
+                    Main.panic("Illegal factor operator" + kindOfOpr);
+            }
+        }
+        return runtimePrimary;
     }
 }

@@ -30,13 +30,6 @@ public abstract class AspCompoundStmt extends AspStmt{
         return acs;
     }
 
-    @Override
-    public void prettyPrint() {}
-
-
-    @Override
-    public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        //-- Must be changed in part 3:
-        return null;
-    }
+    abstract void prettyPrint();
+    abstract RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue;
 }
