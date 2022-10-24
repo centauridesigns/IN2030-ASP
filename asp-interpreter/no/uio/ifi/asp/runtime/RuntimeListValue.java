@@ -68,8 +68,11 @@ public class RuntimeListValue extends RuntimeValue {
 
             return new RuntimeBoolValue(false);
         }
+        else if (v.toString() == "None"){
+            return new RuntimeBoolValue(false);
+        }
 
-        runtimeError("'==' is undefined for values " + typeName() + "and" + v.typeName() + ".", where);
+        runtimeError("'==' is undefined for values " + typeName() + " and " + v.typeName() + ".", where);
         return null;
     }
 
@@ -88,8 +91,11 @@ public class RuntimeListValue extends RuntimeValue {
 
             return new RuntimeBoolValue(true);
         }
+        else if (v.toString() == "None"){
+            return new RuntimeBoolValue(false);
+        }
 
-        runtimeError("'!=' is undefined for values " + typeName() + "and" + v.typeName() + ".", where);
+        runtimeError("'!=' is undefined for values " + typeName() + " and " + v.typeName() + ".", where);
         return null;
     }
 
@@ -97,9 +103,10 @@ public class RuntimeListValue extends RuntimeValue {
     public RuntimeValue evalMultiply(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeIntegerValue) {
             ArrayList<RuntimeValue> newList = listObject;
+            int size = listObject.size();
 
-            for (int i = (int) v.getIntValue("* operand", where); i > 0; i--) {
-                for (int j = 0; j < listObject.size(); j++) {
+            for (int i = (int) v.getIntValue("* operand", where)-1; i > 0; i--) {
+                for (int j = 0; j < size; j++) {
                     listObject.add(listObject.get(j));
                 }
             }

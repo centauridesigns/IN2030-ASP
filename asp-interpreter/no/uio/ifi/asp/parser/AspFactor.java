@@ -73,7 +73,7 @@ public class AspFactor extends AspSyntax {
             TokenKind kindOfOpr = factorOprs.get(i-1).kind;
             RuntimeValue runtimeNextPrimary = primaries.get(i).eval(curScope);
             
-            if (factorPrefixes.get(i) != null){
+            if (!factorPrefixes.isEmpty() && factorPrefixes.size() != 1 && factorPrefixes.get(i) != null){
                 TokenKind prefix = factorPrefixes.get(i).kind;
                 switch (prefix){
                     case plusToken:

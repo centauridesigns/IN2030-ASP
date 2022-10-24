@@ -98,7 +98,7 @@ public class RuntimeIntegerValue extends RuntimeValue {
         }else if (v instanceof RuntimeFloatValue){
             return new RuntimeFloatValue((double)integerValue + v.getFloatValue("+", where));
         }
-
+        //System.out.println("This value: " + Integer.toString((int)integerValue) + "second value: " + Integer.toString((int) v.getIntValue("+", where)));
         runtimeError("Type error for +.", where);
         return null;
     }
@@ -132,7 +132,7 @@ public class RuntimeIntegerValue extends RuntimeValue {
     @Override
     public RuntimeValue evalDivide(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeIntegerValue) {
-            return new RuntimeIntegerValue(integerValue / v.getIntValue("/", where));
+            return new RuntimeFloatValue((double) integerValue / v.getIntValue("/", where));
 
         }else if (v instanceof RuntimeFloatValue){
             return new RuntimeFloatValue((double)integerValue / v.getFloatValue("/", where));
@@ -147,7 +147,7 @@ public class RuntimeIntegerValue extends RuntimeValue {
         if (v instanceof RuntimeIntegerValue) {
             return new RuntimeIntegerValue(Math.floorDiv(integerValue, v.getIntValue("//", where)));
         }else if (v instanceof RuntimeFloatValue){
-            return new RuntimeFloatValue(Math.floor((double)integerValue / v.getFloatValue("//", where)));
+            return new RuntimeFloatValue((double)Math.floor(integerValue / v.getFloatValue("//", where)));
         }
 
         runtimeError("Type error for //.", where);

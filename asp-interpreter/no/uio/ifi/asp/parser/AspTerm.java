@@ -49,13 +49,13 @@ public class AspTerm extends AspSyntax {
 
         for (int i = 1; i < aspFactors.size(); i++) {
             kind = aspTerms.get(i - 1).kind;
-            operand = aspTerms.get(i).eval(curScope);
+            operand = aspFactors.get(i).eval(curScope);
 
             switch(kind) {
                 case plusToken:
-                    value = value.evalAdd(operand, this);
+                    value = value.evalAdd(operand, this); break;
                 case minusToken:
-                    value = value.evalSubtract(operand, this);
+                    value = value.evalSubtract(operand, this); break;
                 default:
                     Main.panic("Illegal term operator: " + kind + "!");
             }
