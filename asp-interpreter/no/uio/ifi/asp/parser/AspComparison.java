@@ -52,17 +52,17 @@ public class AspComparison extends AspSyntax {
             
             switch (kind) {
                 case lessToken:
-                    value = value.evalLess(operand, this);
+                    value = value.evalLess(operand, this); break;
                 case lessEqualToken:
-                    value = value.evalLessEqual(operand, this);
+                    value = value.evalLessEqual(operand, this); break;
                 case greaterToken:
-                    value = value.evalGreater(operand, this);
+                    value = value.evalGreater(operand, this); break;
                 case greaterEqualToken:
-                    value = value.evalGreaterEqual(operand, this);
+                    value = value.evalGreaterEqual(operand, this); break;
                 case doubleEqualToken:
-                    value = value.evalEqual(operand, this);
+                    value = value.evalEqual(operand, this); break;
                 case notEqualToken:
-                    value = value.evalNotEqual(operand, this);
+                    value = value.evalNotEqual(operand, this); break;
                 default:
                     Main.panic("Illegal comparison operator: " + kind + "!");
             }
