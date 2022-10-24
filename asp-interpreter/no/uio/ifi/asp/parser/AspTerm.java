@@ -44,18 +44,18 @@ public class AspTerm extends AspSyntax {
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
         RuntimeValue value = aspFactors.get(0).eval(curScope);
-        RuntimeValue operator;
+        RuntimeValue operand;
         TokenKind kind;
 
         for (int i = 1; i < aspFactors.size(); i++) {
             kind = aspTerms.get(i - 1).kind;
-            operator = aspTerms.get(i).eval(curScope);
+            operand = aspTerms.get(i).eval(curScope);
 
             switch(kind) {
                 case plusToken:
-                    value = value.evalAdd(operator, this);
+                    value = value.evalAdd(operand, this);
                 case minusToken:
-                    value = value.evalAdd(operator, this);
+                    value = value.evalSubtract(operand, this);
                 default:
                     Main.panic("Illegal term operator: " + kind + "!");
             }
