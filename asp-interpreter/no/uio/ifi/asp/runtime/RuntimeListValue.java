@@ -44,7 +44,7 @@ public class RuntimeListValue extends RuntimeValue {
         return listObject.get(index);
     }
 
-    public ArrayList<RuntimeValue> getDict(AspSyntax where) {
+    public ArrayList<RuntimeValue> getList(AspSyntax where) {
         return this.listObject;
     }
     
@@ -62,7 +62,7 @@ public class RuntimeListValue extends RuntimeValue {
     @Override
     public RuntimeValue evalEqual(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeListValue) {
-            if (this.listObject.equals(((RuntimeListValue) v).getDict(where))) {
+            if (this.listObject.equals(((RuntimeListValue) v).getList(where))) {
                 return new RuntimeBoolValue(true);
             }
 
@@ -82,7 +82,7 @@ public class RuntimeListValue extends RuntimeValue {
     @Override
     public RuntimeValue evalNotEqual(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeListValue) {
-            if (this.listObject.equals(((RuntimeListValue) v).getDict(where))) {
+            if (this.listObject.equals(((RuntimeListValue) v).getList(where))) {
                 return new RuntimeBoolValue(false);
             }
 
