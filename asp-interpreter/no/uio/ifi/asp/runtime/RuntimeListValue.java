@@ -128,7 +128,7 @@ public class RuntimeListValue extends RuntimeValue {
         }
 
         else {
-            runtimeError("Index " + index + "out of bounds for " + typeName() + " of size " + listObject.size() + ".", where);
+            runtimeError("Index " + index + " out of bounds for " + typeName() + " of size " + listObject.size() + ".", where);
         }
     }
 
@@ -142,7 +142,7 @@ public class RuntimeListValue extends RuntimeValue {
             }
         }
 
-        runtimeError("Index " + index + "out of bounds for " + typeName() + " of size " + listObject.size() + ".", where);
+        runtimeError("Index " + index + " out of bounds for " + typeName() + " of size " + listObject.size() + ".", where);
         return null;
     }
 }

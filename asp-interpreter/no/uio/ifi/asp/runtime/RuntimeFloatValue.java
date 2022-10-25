@@ -59,6 +59,8 @@ public class RuntimeFloatValue extends RuntimeValue {
                 return new RuntimeBoolValue(true);
             }
             return new RuntimeBoolValue(false);
+        }else if (v instanceof RuntimeNoneValue){
+            return new RuntimeBoolValue(false);
         }
         
         runtimeError("Type error for ==.", where);
@@ -82,6 +84,8 @@ public class RuntimeFloatValue extends RuntimeValue {
             if (doubleValue != v.getFloatValue("!=", where)) {
                 return new RuntimeBoolValue(true);
             }
+            return new RuntimeBoolValue(false);
+        }else if (v instanceof RuntimeNoneValue){
             return new RuntimeBoolValue(false);
         }
 

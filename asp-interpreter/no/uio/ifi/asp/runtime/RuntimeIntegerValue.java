@@ -60,6 +60,8 @@ public class RuntimeIntegerValue extends RuntimeValue {
                 return new RuntimeBoolValue(true);
             }
             return new RuntimeBoolValue(false);
+        }else if (v instanceof RuntimeNoneValue){
+            return new RuntimeBoolValue(false);
         }
         
         runtimeError("Type error for ==.", where);
@@ -84,6 +86,8 @@ public class RuntimeIntegerValue extends RuntimeValue {
                 return new RuntimeBoolValue(false);
             }
             return new RuntimeBoolValue(true);
+        }else if (v instanceof RuntimeNoneValue){
+            return new RuntimeBoolValue(false);
         }
 
         runtimeError("Type error for !=.", where);

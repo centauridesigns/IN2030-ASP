@@ -73,15 +73,37 @@ public class RuntimeDictValue extends RuntimeValue {
     @Override
     public RuntimeValue evalSubscription(RuntimeValue key, AspSyntax where) {
         if (key instanceof RuntimeStringValue) {
-            if (dictObject.get(key) != null) {
-                return dictObject.get(key);
+            for (RuntimeValue k : dictObject.keySet()) {
+                if (k.toString().equals(key.toString())) {
+                    return dictObject.get(k);
+                }
             }
 
-            runtimeError("Key " + key.toString() + " not found", where);
+            runtimeError("Key '" + key.toString() + "' not found", where);
             return null;
         }
 
         runtimeError("Key " + key.toString() + " is not a string.", where);
+        return null;
+    }
+
+    @Override
+    public RuntimeValue evalEqual(RuntimeValue v, AspSyntax where) {
+        if (v instanceof RuntimeNoneValue){
+            return new RuntimeBoolValue(false);
+        }
+        
+        runtimeError("'==' undefined for dictionary!", where);
+        return null;
+    }
+
+    @Override
+    public RuntimeValue evalNotEqual(RuntimeValue v, AspSyntax where) {
+        if (v instanceof RuntimeNoneValue){
+            return new RuntimeBoolValue(false);
+        }
+        
+        runtimeError("'==' undefined for dictionary!", where);
         return null;
     }
 }
