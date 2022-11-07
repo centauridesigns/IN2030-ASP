@@ -47,6 +47,11 @@ public class RuntimeListValue extends RuntimeValue {
     public ArrayList<RuntimeValue> getList(AspSyntax where) {
         return this.listObject;
     }
+
+    @Override
+    public long getIntValue(String what, AspSyntax where) {
+        return listObject.size();
+    }
     
     @Override
     public boolean getBoolValue(String what, AspSyntax where) {

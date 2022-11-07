@@ -56,10 +56,14 @@ public class AspAssignment extends AspSmallStmt {
                 RuntimeValue runtimeSub = sub.eval(curScope);
                 runtimeName = runtimeName.evalSubscription(runtimeSub, this);
             }
-            //kanskje sende inn aspsub sin eval som index
-            RuntimeValue inx = new RuntimeIntegerValue(subs.size()-1);
+            
+            AspSubscription sub = subs.get(subs.size() - 1);
+            RuntimeValue inx = sub.eval(curScope);
+
             runtimeName.evalAssignElem(inx, runtimeExpr, this);
+            trace(runtimeName.toString() + "[" + inx.toString() +"] = " + expr.toString());
         }
+
         return null;
     }
 }
