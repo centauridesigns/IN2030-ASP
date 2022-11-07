@@ -102,7 +102,7 @@ public class RuntimeStringValue extends RuntimeValue {
         if (v instanceof RuntimeIntegerValue) {
             String newString = stringLiteral;
 
-            for (long i = v.getIntValue("*", where); i > 0; i--) {
+            for (long i = v.getIntValue("*", where) - 1; i > 0; i--) {
                 newString = newString + stringLiteral;
             }
 

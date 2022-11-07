@@ -17,7 +17,7 @@ Trace line 11: '33.0'
 "Abc" ==>
 Trace line 14: 'Abc'
 "x" * 6 ==>
-Trace line 15: 'xxxxxxx'
+Trace line 15: 'xxxxxx'
 "Abra" + "ka" + "dabra" ==>
 Trace line 16: 'Abrakadabra'
 "abcdefghij"[4] ==>
