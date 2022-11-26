@@ -54,10 +54,23 @@ public class AspFuncDef extends AspCompoundStmt {
 
     }
 
+    public AspSuite getSuite() {
+        return this.suite;
+    }
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        //-- Must be changed in part 3:
+        ArrayList<RuntimeValue> argsEval = new ArrayList<>();
+        RuntimeStringValue nameEval = new RuntimeStringValue(defName.name);
+
+        for (AspName param : args) {
+            RuntimeStringValue p = new RuntimeStringValue(param.name);
+            argsEval.add(p);
+        }
+
+        RuntimeFunc funcEval = new RuntimeFunc(nameEval, argsEval, curScope, this);
+
+        trace("defining "+ funcEval.showInfo());
         return null;
     }
 }

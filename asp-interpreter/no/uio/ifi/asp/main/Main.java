@@ -10,7 +10,7 @@ import no.uio.ifi.asp.scanner.*;
 import static no.uio.ifi.asp.scanner.TokenKind.*;
 
 public class Main {
-    public static final String version = "2022-11-07";
+    public static final String version = "2022-11-26";
 
     public static RuntimeScope libScope, globalScope;
     public static LogFile log = null;
