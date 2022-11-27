@@ -12,15 +12,24 @@ public class RuntimeFunc extends RuntimeValue {
     String name;
 
     public RuntimeFunc(RuntimeValue rv, ArrayList<RuntimeValue> params, RuntimeScope curScope, AspFuncDef def) {
-        name = rv.showInfo();
+        name = def.toString();
         this.params = params;
         defScope = curScope;
         this.def = def;
     }
 
+    public RuntimeFunc(String name) {
+        this.name = name;
+    }
+
     @Override
     public String typeName(){
         return "function";
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
     @Override
@@ -36,12 +45,12 @@ public class RuntimeFunc extends RuntimeValue {
                 callValue = actPars.get(i);
 
                 if (callValue != null) {
-                    callScope.assign(params.get(i).getStringValue("assignment", where), callValue);
+                    callScope.assign(params.get(i).getStringValue("parameter", where), callValue);
                 }
 
                 // Hva sender man inn her?
                 else {
-                    callScope.assign(params.get(i).getStringValue("assignment", where), actPars.get(i));
+                    callScope.assign(params.get(i).getStringValue("parameter", where), params.get(i));
                 }
             }
 

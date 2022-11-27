@@ -43,10 +43,10 @@ public class AspForStmt extends AspCompoundStmt {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        RuntimeValue runtimeName = name.eval(curScope);
         RuntimeValue runtimeExpr = expression.eval(curScope);
 
         if (runtimeExpr instanceof RuntimeListValue) {
+            RuntimeValue runtimeName = name.eval(curScope);
             RuntimeListValue runtimeList = (RuntimeListValue) runtimeExpr;
             trace("for " + runtimeName.toString() + "in " + runtimeExpr.toString()) ;
 
@@ -56,10 +56,7 @@ public class AspForStmt extends AspCompoundStmt {
                 suite.eval(curScope);
             }
         }
-        
+
         return null;
     }
-
-    // for item in list:
-    // list[i]
 }

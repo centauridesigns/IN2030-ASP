@@ -2,6 +2,8 @@ package no.uio.ifi.asp.parser;
 import java.util.ArrayList;
 import no.uio.ifi.asp.scanner.*;
 import static no.uio.ifi.asp.scanner.TokenKind.*;
+
+import no.uio.ifi.asp.main.Main;
 import no.uio.ifi.asp.runtime.*;
 
 public class AspAssignment extends AspSmallStmt {
@@ -45,13 +47,24 @@ public class AspAssignment extends AspSmallStmt {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        RuntimeValue runtimeName = name.eval(curScope);
         RuntimeValue runtimeExpr = expr.eval(curScope);
+        RuntimeScope gs = Main.globalScope;
 
         if (subs.isEmpty()){
-            curScope.assign(runtimeName.getStringValue("assignment", this), runtimeExpr);
+            if (gs.hasGlobalName(name.name)) {
+                gs.assign(name.name, runtimeExpr);
+                trace(name.name + "=" + runtimeExpr.toString());
+            }
+
+            else {
+                curScope.assign(name.name, runtimeExpr);
+                trace(name.name + "=" + runtimeExpr.toString());
+            }
         }
+
         else {
+            RuntimeValue runtimeName = name.eval(curScope);
+            
             for (AspSubscription sub : subs){
                 RuntimeValue runtimeSub = sub.eval(curScope);
                 runtimeName = runtimeName.evalSubscription(runtimeSub, this);
