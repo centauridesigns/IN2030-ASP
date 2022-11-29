@@ -49,8 +49,10 @@ public class RuntimeLibrary extends RuntimeScope {
         assign("print", new RuntimeFunc("print") {
             @Override
             public RuntimeValue evalFuncCall(ArrayList<RuntimeValue> actualParams,AspSyntax where) {
-                for (RuntimeValue actualParam : actualParams) {
-                    System.out.print(actualParam.toString());
+                for (int i = 0; i < actualParams.size(); i++) {
+                    RuntimeValue actualParam = actualParams.get(i);
+                    if (i == actualParams.size() - 1) System.out.print(actualParam.toString());
+                    else System.out.print(actualParam.toString() + " ");
                 }
 
                 System.out.println();

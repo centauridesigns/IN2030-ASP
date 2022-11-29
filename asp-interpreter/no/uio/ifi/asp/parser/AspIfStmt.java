@@ -70,20 +70,20 @@ public class AspIfStmt extends AspCompoundStmt {
 
             if (e.getBoolValue("if check", suite)) {
                 ifSuites.get(i).eval(curScope);
-                if (i == 0) trace("if True ...");
-                else trace("elif True ...");
+                //if (i == 0) trace("if True ...");
+                //else trace("elif True ...");
 
                 break;
             }
 
             if (suite != null && i >= exprs.size() - 1) {
                 suite.eval(curScope);
-                trace("else True ...");
+                //trace("else True ...");
                 break;
             }
 
-            if (i == 0) trace("if False ...");
-            else trace("elif False ...");
+            //if (i == 0) trace("if False ...");
+            //else trace("elif False ...");
         }
 
         return null;
