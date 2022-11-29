@@ -42,16 +42,17 @@ public class AspPrimary extends AspSyntax{
         RuntimeValue value = atom.eval(curScope);
         ArrayList<RuntimeValue> arguments;
 
-
         for (AspPrimarySuffix suffix : apss) {
             if (value instanceof RuntimeStringValue || value instanceof RuntimeDictValue || value instanceof RuntimeListValue) {
                 value = value.evalSubscription(suffix.eval(curScope), this);
             }
     
             else if (suffix instanceof AspArguments) {
+                String funcTrace = curScope.find(value.toString(), this).toString();
                 RuntimeListValue listObject = (RuntimeListValue) suffix.eval(curScope);
                 arguments = listObject.getList(this);
 
+                trace("Call function " + funcTrace + " with params " + arguments);
                 value = value.evalFuncCall(arguments, this);
             }
         }

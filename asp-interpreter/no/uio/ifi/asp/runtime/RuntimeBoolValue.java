@@ -23,6 +23,11 @@ public class RuntimeBoolValue extends RuntimeValue {
     }
 
     @Override
+    public String getStringValue(String what, AspSyntax where){
+        return this.toString();
+    }
+
+    @Override
     public boolean getBoolValue(String what, AspSyntax where) {
         return boolValue;
     }

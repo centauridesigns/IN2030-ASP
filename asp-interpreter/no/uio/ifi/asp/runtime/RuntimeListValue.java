@@ -48,6 +48,12 @@ public class RuntimeListValue extends RuntimeValue {
         return this.listObject;
     }
 
+
+    @Override
+    public String getStringValue(String what, AspSyntax where){
+        return this.toString();
+    }
+
     @Override
     public long getIntValue(String what, AspSyntax where) {
         return listObject.size();
@@ -127,8 +133,8 @@ public class RuntimeListValue extends RuntimeValue {
     public void evalAssignElem(RuntimeValue inx, RuntimeValue v, AspSyntax where) {
         Integer index = (int) inx.getIntValue("element assignment", where);
 
-        if (index > 0 && index < listObject.size()  ) {
-            listObject.remove(index);
+        if (index >= 0 && index < listObject.size() - 1) {
+            listObject.remove(v);
             listObject.add(index, v);
         }
 
@@ -142,12 +148,16 @@ public class RuntimeListValue extends RuntimeValue {
         Integer index = (int) v.getIntValue("element assignment", where);
 
         if (v instanceof RuntimeIntegerValue) {
-            if (index < listObject.size() - 1) {
+            if (index >= 0 && index < listObject.size() - 1) {
                 return listObject.get(index);
             }
+
+            runtimeError("Index " + index + " out of bounds for " + typeName() + " of size " + listObject.size() + ".", where);
+            return null;
         }
 
-        runtimeError("Index " + index + " out of bounds for " + typeName() + " of size " + listObject.size() + ".", where);
+        runtimeError("Subscription [...] is undefined for values " + v.typeName() + ".", where);
+
         return null;
     }
 }

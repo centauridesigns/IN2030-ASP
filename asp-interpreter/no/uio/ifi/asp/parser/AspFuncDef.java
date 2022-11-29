@@ -18,6 +18,10 @@ public class AspFuncDef extends AspCompoundStmt {
         return defName.name;
     }
 
+    public ArrayList<AspName> getParams() {
+        return args;
+    }
+
     public static AspFuncDef parse(Scanner s) {
         enterParser("func def");
         AspFuncDef afd = new AspFuncDef(s.curLineNum());
@@ -76,7 +80,7 @@ public class AspFuncDef extends AspCompoundStmt {
         RuntimeFunc funcEval = new RuntimeFunc(nameEval, argsEval, curScope, this);
         curScope.assign(defName.name, funcEval);
 
-        trace("defining "+ funcEval.toString());
+        trace("def "+ funcEval.toString());
         return null;
     }
 }

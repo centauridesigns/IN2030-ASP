@@ -10,6 +10,11 @@ public class AspFloatLiteral extends AspAtom {
         super(n);
     }
 
+    @Override
+    public String toString() {
+        return Double.toString(floatValue);
+    }
+
     static AspFloatLiteral parse(Scanner s) {
         enterParser("float literal");
 

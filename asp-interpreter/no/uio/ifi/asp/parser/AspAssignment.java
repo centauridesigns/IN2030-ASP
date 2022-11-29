@@ -45,6 +45,41 @@ public class AspAssignment extends AspSmallStmt {
     }
 
 
+    // @Override
+    // public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
+    //     RuntimeValue runtimeExpr = expr.eval(curScope);
+    //     RuntimeScope gs = Main.globalScope;
+
+    //     if (subs.isEmpty()){
+    //         if (gs.hasGlobalName(name.name)) {
+    //             gs.assign(name.name, runtimeExpr);
+    //             trace(name.name + "=" + runtimeExpr.toString());
+    //         }
+
+    //         else {
+    //             curScope.assign(name.name, runtimeExpr);
+    //             trace(name.name + "=" + runtimeExpr.toString());
+    //         }
+    //     }
+
+    //     else {
+    //         RuntimeValue runtimeName = name.eval(curScope);
+            
+    //         for (AspSubscription sub : subs){
+    //             RuntimeValue runtimeSub = sub.eval(curScope);
+    //             runtimeName = runtimeName.evalSubscription(runtimeSub, this);
+    //         }
+            
+    //         AspSubscription sub = subs.get(subs.size() - 1);
+    //         RuntimeValue inx = sub.eval(curScope);
+
+    //         runtimeName.evalAssignElem(inx, runtimeExpr, this);
+    //         trace(runtimeName.toString() + "[" + inx.toString() +"] = " + expr.toString());
+    //     }
+
+    //     return null;
+    // }
+
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
         RuntimeValue runtimeExpr = expr.eval(curScope);
@@ -63,18 +98,18 @@ public class AspAssignment extends AspSmallStmt {
         }
 
         else {
-            RuntimeValue runtimeName = name.eval(curScope);
-            
-            for (AspSubscription sub : subs){
-                RuntimeValue runtimeSub = sub.eval(curScope);
-                runtimeName = runtimeName.evalSubscription(runtimeSub, this);
-            }
-            
-            AspSubscription sub = subs.get(subs.size() - 1);
-            RuntimeValue inx = sub.eval(curScope);
+            String runtimeName = name.eval(curScope).getStringValue(name.name, this);
+            RuntimeValue inx = subs.get(0).eval(curScope);
 
-            runtimeName.evalAssignElem(inx, runtimeExpr, this);
-            trace(runtimeName.toString() + "[" + inx.toString() +"] = " + expr.toString());
+            RuntimeValue list = curScope.find(name.name, this);
+            
+            for (int i = 0; i < subs.size() - 1; i++){
+                inx = subs.get(i + 1).eval(curScope);
+                list = list.evalSubscription(subs.get(i).eval(curScope), this);
+            }
+
+            list.evalAssignElem(inx, runtimeExpr, this);
+            trace(runtimeName + "[" + inx.toString() +"] = " + runtimeExpr.toString());
         }
 
         return null;

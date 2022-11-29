@@ -30,6 +30,11 @@ public class RuntimeStringValue extends RuntimeValue {
     }
     
     @Override
+    public String getStringValue(String what, AspSyntax where) {
+        return stringLiteral;
+    }
+
+    @Override
     public boolean getBoolValue(String what, AspSyntax where) {
         return !stringLiteral.isEmpty();
     }
@@ -73,12 +78,10 @@ public class RuntimeStringValue extends RuntimeValue {
     @Override
     public RuntimeValue evalNotEqual(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeStringValue) {
-            if (stringLiteral == v.toString()) {
-                return new RuntimeBoolValue(false);
-            }
-
-            return new RuntimeBoolValue(true);
-        }else if (v instanceof RuntimeNoneValue){
+            return new RuntimeBoolValue(!stringLiteral.equals(v.toString()));
+        }
+        
+        else if (v instanceof RuntimeNoneValue){
             return new RuntimeBoolValue(false);
         }
 
@@ -172,7 +175,7 @@ public class RuntimeStringValue extends RuntimeValue {
     @Override
     public RuntimeValue evalSubscription(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeIntegerValue)  {
-            if (v.getIntValue("[]", where) < stringLiteral.length() - 1) {
+            if (v.getIntValue("[]", where) <= stringLiteral.length() - 1) {
                 int i = (int) v.getIntValue("[]", where);
                 String character = Character.toString(stringLiteral.charAt(i));
                 return new RuntimeStringValue(character);
@@ -182,6 +185,6 @@ public class RuntimeStringValue extends RuntimeValue {
         }
 
         runtimeError("Type error for [].", where);
-        return null;
+        return new RuntimeStringValue(Character.toString(this.stringLiteral.charAt((int)v.getIntValue("integer", where))));
     }
 }

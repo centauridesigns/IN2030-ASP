@@ -38,9 +38,6 @@ public class RuntimeFunc extends RuntimeValue {
             RuntimeScope callScope = new RuntimeScope(defScope);
             RuntimeValue callValue;
 
-            System.out.println(params+"\n");
-            System.out.println(actPars+"\n");
-
             for (int i = 0; i < actPars.size(); i++) {
                 callValue = actPars.get(i);
 

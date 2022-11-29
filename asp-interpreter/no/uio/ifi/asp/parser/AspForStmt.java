@@ -46,17 +46,16 @@ public class AspForStmt extends AspCompoundStmt {
         RuntimeValue runtimeExpr = expression.eval(curScope);
 
         if (runtimeExpr instanceof RuntimeListValue) {
-            RuntimeValue runtimeName = name.eval(curScope);
             RuntimeListValue runtimeList = (RuntimeListValue) runtimeExpr;
-            trace("for " + runtimeName.toString() + "in " + runtimeExpr.toString()) ;
+            trace("for " + name.name.toString() + " in " + runtimeExpr.toString()) ;
 
             for (int i = 0; i < runtimeExpr.getIntValue("for-loop", this) - 1; i++) {
-                curScope.assign(runtimeName.toString(), runtimeList.getElem(i));
-                trace("assigning " + runtimeList.getElem(i).toString() + " to " + runtimeName.toString());
+                curScope.assign(name.name.toString(), runtimeList.getElem(i));
+                trace("assigning " + runtimeList.getElem(i).toString() + " to " + name.name);
                 suite.eval(curScope);
             }
         }
 
-        return null;
+        return runtimeExpr;
     }
 }
