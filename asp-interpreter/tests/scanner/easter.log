@@ -16,7 +16,6 @@ Trace line 18: month=4
 Trace line 19: day=4
 Trace line 23: Call function str with params [4]
 Trace line 23: Call function print with params [4. april, 2021]
-Trace line 20: else True ...
 Trace line 24: y=2022
 Trace line 4: while True: ...
 Trace line 5: a=8
@@ -35,7 +34,6 @@ Trace line 18: month=4
 Trace line 19: day=17
 Trace line 23: Call function str with params [17]
 Trace line 23: Call function print with params [17. april, 2022]
-Trace line 20: else True ...
 Trace line 24: y=2023
 Trace line 4: while True: ...
 Trace line 5: a=9
@@ -54,7 +52,6 @@ Trace line 18: month=4
 Trace line 19: day=9
 Trace line 23: Call function str with params [9]
 Trace line 23: Call function print with params [9. april, 2023]
-Trace line 20: else True ...
 Trace line 24: y=2024
 Trace line 4: while True: ...
 Trace line 5: a=10
@@ -73,7 +70,6 @@ Trace line 18: month=3
 Trace line 19: day=31
 Trace line 21: Call function str with params [31]
 Trace line 21: Call function print with params [31. mars, 2024]
-Trace line 20: if True ...
 Trace line 24: y=2025
 Trace line 4: while True: ...
 Trace line 5: a=11
@@ -92,6 +88,5 @@ Trace line 18: month=4
 Trace line 19: day=20
 Trace line 23: Call function str with params [20]
 Trace line 23: Call function print with params [20. april, 2025]
-Trace line 20: else True ...
 Trace line 24: y=2026
 Trace line 4: while False:

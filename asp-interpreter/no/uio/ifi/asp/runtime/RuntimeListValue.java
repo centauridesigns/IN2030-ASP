@@ -133,9 +133,8 @@ public class RuntimeListValue extends RuntimeValue {
     public void evalAssignElem(RuntimeValue inx, RuntimeValue v, AspSyntax where) {
         Integer index = (int) inx.getIntValue("element assignment", where);
 
-        if (index >= 0 && index <= listObject.size() - 1) {
-            listObject.remove(v);
-            listObject.add(index, v);
+        if (index >= 0 && index < listObject.size()) {
+            listObject.set(index, v);
         }
 
         else {

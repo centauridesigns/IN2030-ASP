@@ -7,38 +7,31 @@ Trace line 7: Call function len with params [[3,17,-3,0,3,1,12]]
 Trace line 7: Call function range with params [1, 7]
 Trace line 7: for i in [1,2,3,4,5,6,7]
 Trace line 7: assigning 1 to i
-Trace line 8: if False ...
 Trace line 7: assigning 2 to i
 Trace line 9: t=17
-Trace line 9: [3,17,-3,0,3,1,12][1] = -3
-Trace line 9: [3,-3,17,0,3,1,12][2] = 17
+Trace line 9: a[1] = -3
+Trace line 9: a[2] = 17
 Trace line 10: endret=True
-Trace line 8: if True ...
 Trace line 7: assigning 3 to i
 Trace line 9: t=17
-Trace line 9: [3,-3,17,0,3,1,12][2] = 0
-Trace line 9: [3,-3,0,17,3,1,12][3] = 17
+Trace line 9: a[2] = 0
+Trace line 9: a[3] = 17
 Trace line 10: endret=True
-Trace line 8: if True ...
 Trace line 7: assigning 4 to i
 Trace line 9: t=17
-Trace line 9: [3,-3,0,17,3,1,12][3] = 3
-Trace line 9: [3,-3,0,3,17,1,12][4] = 17
+Trace line 9: a[3] = 3
+Trace line 9: a[4] = 17
 Trace line 10: endret=True
-Trace line 8: if True ...
 Trace line 7: assigning 5 to i
 Trace line 9: t=17
-Trace line 9: [3,-3,0,3,17,1,12][4] = 1
-Trace line 9: [3,-3,0,3,1,17,12][5] = 17
+Trace line 9: a[4] = 1
+Trace line 9: a[5] = 17
 Trace line 10: endret=True
-Trace line 8: if True ...
 Trace line 7: assigning 6 to i
 Trace line 9: t=17
-Trace line 9: [3,-3,0,3,1,17,12][5] = 12
-Trace line 9: [3,-3,0,3,1,12,17][6] = 17
+Trace line 9: a[5] = 12
+Trace line 9: a[6] = 17
 Trace line 10: endret=True
-Trace line 8: if True ...
-Trace line 11: if False ...
 Trace line 5: while True: ...
 Trace line 6: endret=False
 Trace line 7: Call function len with params [[3,-3,0,3,1,12,17]]
@@ -46,67 +39,47 @@ Trace line 7: Call function range with params [1, 7]
 Trace line 7: for i in [1,2,3,4,5,6,7]
 Trace line 7: assigning 1 to i
 Trace line 9: t=3
-Trace line 9: [3,-3,0,3,1,12,17][0] = -3
-Trace line 9: [-3,3,0,3,1,12,17][1] = 3
+Trace line 9: a[0] = -3
+Trace line 9: a[1] = 3
 Trace line 10: endret=True
-Trace line 8: if True ...
 Trace line 7: assigning 2 to i
 Trace line 9: t=3
-Trace line 9: [-3,3,0,3,1,12,17][1] = 0
-Trace line 9: [-3,0,3,3,1,12,17][2] = 3
+Trace line 9: a[1] = 0
+Trace line 9: a[2] = 3
 Trace line 10: endret=True
-Trace line 8: if True ...
 Trace line 7: assigning 3 to i
-Trace line 8: if False ...
 Trace line 7: assigning 4 to i
 Trace line 9: t=3
-Trace line 9: [-3,0,3,3,1,12,17][3] = 1
-Trace line 9: [-3,0,3,1,3,12,17][4] = 3
+Trace line 9: a[3] = 1
+Trace line 9: a[4] = 3
 Trace line 10: endret=True
-Trace line 8: if True ...
 Trace line 7: assigning 5 to i
-Trace line 8: if False ...
 Trace line 7: assigning 6 to i
-Trace line 8: if False ...
-Trace line 11: if False ...
 Trace line 5: while True: ...
 Trace line 6: endret=False
 Trace line 7: Call function len with params [[-3,0,3,1,3,12,17]]
 Trace line 7: Call function range with params [1, 7]
 Trace line 7: for i in [1,2,3,4,5,6,7]
 Trace line 7: assigning 1 to i
-Trace line 8: if False ...
 Trace line 7: assigning 2 to i
-Trace line 8: if False ...
 Trace line 7: assigning 3 to i
 Trace line 9: t=3
-Trace line 9: [-3,0,3,1,3,12,17][2] = 1
-Trace line 9: [-3,0,1,3,3,12,17][3] = 3
+Trace line 9: a[2] = 1
+Trace line 9: a[3] = 3
 Trace line 10: endret=True
-Trace line 8: if True ...
 Trace line 7: assigning 4 to i
-Trace line 8: if False ...
 Trace line 7: assigning 5 to i
-Trace line 8: if False ...
 Trace line 7: assigning 6 to i
-Trace line 8: if False ...
-Trace line 11: if False ...
 Trace line 5: while True: ...
 Trace line 6: endret=False
 Trace line 7: Call function len with params [[-3,0,1,3,3,12,17]]
 Trace line 7: Call function range with params [1, 7]
 Trace line 7: for i in [1,2,3,4,5,6,7]
 Trace line 7: assigning 1 to i
-Trace line 8: if False ...
 Trace line 7: assigning 2 to i
-Trace line 8: if False ...
 Trace line 7: assigning 3 to i
-Trace line 8: if False ...
 Trace line 7: assigning 4 to i
-Trace line 8: if False ...
 Trace line 7: assigning 5 to i
-Trace line 8: if False ...
 Trace line 7: assigning 6 to i
-Trace line 8: if False ...
 Trace line 11: return '0'
 Trace line 15: Call function print with params [Resultatet er, [-3,0,1,3,3,12,17]]

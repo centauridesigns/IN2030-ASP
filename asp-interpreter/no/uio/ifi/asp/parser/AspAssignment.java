@@ -98,7 +98,7 @@ public class AspAssignment extends AspSmallStmt {
         }
 
         else {
-            String runtimeName = name.eval(curScope).getStringValue(name.name, this);
+            String runtimeName = name.name;
             RuntimeValue inx = subs.get(0).eval(curScope);
 
             RuntimeValue list = curScope.find(name.name, this);
